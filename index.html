@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -7,140 +7,361 @@
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
   <style>
+    :root, html[data-theme="light"] {
+      --bg: #EAE3D2;
+      --surface: #F4EFE4;
+      --surface-alt: #DFD7C4;
+      --surface-hover: #E6DEC8;
+      --ink: #121110;
+      --ink-muted: #5A5449;
+      --ink-faint: #7D7567;
+      --border-strong: #121110;
+      --border-subtle: #BDB49E;
+      --accent: #C83E1D;
+      --accent-ink: #F4EFE4;
+      --correct-bg: #D5E6D8;
+      --correct-ink: #0D3818;
+      --correct-border: #0D3818;
+      --wrong-bg: #EED4D1;
+      --wrong-ink: #6E130C;
+      --wrong-border: #6E130C;
+      --warn-bg: #EFE2C2;
+      --warn-ink: #5E4004;
+      --shadow-color: #121110;
+    }
+
+    html[data-theme="dark"] {
+      --bg: #0D0D0C;
+      --surface: #151513;
+      --surface-alt: #1E1D1A;
+      --surface-hover: #252420;
+      --ink: #EAE3D2;
+      --ink-muted: #9E9687;
+      --ink-faint: #6B6559;
+      --border-strong: #EAE3D2;
+      --border-subtle: #2E2C27;
+      --accent: #E2522F;
+      --accent-ink: #0D0D0C;
+      --correct-bg: #0F2616;
+      --correct-ink: #7CE89B;
+      --correct-border: #7CE89B;
+      --wrong-bg: #2B1210;
+      --wrong-ink: #FA8E86;
+      --wrong-border: #FA8E86;
+      --warn-bg: #29200C;
+      --warn-ink: #F5C469;
+      --shadow-color: #EAE3D2;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    /* Enforce strict 0px angular geometry everywhere */
+    *, *::before, *::after {
+      border-radius: 0px !important;
+      box-sizing: border-box;
+    }
+
     body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      background-color: #f8fafc;
-      color: #0f172a;
+      font-family: 'IBM Plex Mono', monospace;
+      background-color: var(--bg);
+      color: var(--ink);
+      margin: 0;
+      transition: background-color 0.12s linear, color 0.12s linear;
+      background-image: radial-gradient(var(--border-subtle) 0.75px, transparent 0.75px);
+      background-size: 24px 24px;
     }
+
+    .font-display {
+      font-family: 'Syne', sans-serif;
+    }
+
+    .font-editorial {
+      font-family: 'Newsreader', Georgia, serif;
+    }
+
+    .font-mono-tech {
+      font-family: 'IBM Plex Mono', monospace;
+    }
+
+    /* Architectural framing & hard angular states */
+    .frame-strong {
+      background-color: var(--surface);
+      border: 1px solid var(--border-strong);
+    }
+
+    .frame-subtle {
+      background-color: var(--surface);
+      border: 1px solid var(--border-subtle);
+    }
+
+    .hard-shadow {
+      box-shadow: 4px 4px 0px var(--shadow-color);
+    }
+
+    .hard-shadow-sm {
+      box-shadow: 2px 2px 0px var(--shadow-color);
+    }
+
+    .btn-angular {
+      border: 1px solid var(--border-strong);
+      background-color: var(--surface);
+      color: var(--ink);
+      font-family: 'IBM Plex Mono', monospace;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      transition: transform 0.08s linear, background-color 0.08s linear, color 0.08s linear, box-shadow 0.08s linear;
+    }
+
+    .btn-angular:hover:not(:disabled) {
+      background-color: var(--ink);
+      color: var(--bg);
+      transform: translate(-1px, -1px);
+      box-shadow: 3px 3px 0px var(--accent);
+    }
+
+    .btn-angular:active:not(:disabled) {
+      transform: translate(0px, 0px);
+      box-shadow: none;
+    }
+
+    .btn-angular-primary {
+      border: 1px solid var(--border-strong);
+      background-color: var(--ink);
+      color: var(--bg);
+      font-family: 'IBM Plex Mono', monospace;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      transition: transform 0.08s linear, background-color 0.08s linear, color 0.08s linear, box-shadow 0.08s linear;
+    }
+
+    .btn-angular-primary:hover:not(:disabled) {
+      background-color: var(--accent);
+      color: #FFFFFF;
+      border-color: var(--border-strong);
+      transform: translate(-1px, -1px);
+      box-shadow: 3px 3px 0px var(--shadow-color);
+    }
+
+    .btn-angular-accent {
+      border: 1px solid var(--border-strong);
+      background-color: var(--accent);
+      color: #FFFFFF;
+      font-family: 'IBM Plex Mono', monospace;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      transition: transform 0.08s linear, box-shadow 0.08s linear;
+    }
+
+    .btn-angular-accent:hover:not(:disabled) {
+      transform: translate(-1px, -1px);
+      box-shadow: 3px 3px 0px var(--shadow-color);
+    }
+
+    /* Chamfered corner accent on active cards */
+    .week-cell {
+      background-color: var(--surface);
+      border: 1px solid var(--border-subtle);
+      position: relative;
+      transition: background-color 0.1s linear, border-color 0.1s linear, transform 0.1s linear, box-shadow 0.1s linear;
+    }
+
+    .week-cell:hover {
+      border-color: var(--border-strong);
+      background-color: var(--surface-hover);
+      transform: translate(-2px, -2px);
+      box-shadow: 4px 4px 0px var(--shadow-color);
+      z-index: 10;
+    }
+
+    .week-cell-mastered {
+      border-left: 4px solid var(--correct-border) !important;
+    }
+
     .option-btn {
-      transition: all 0.16s cubic-bezier(0.4, 0, 0.2, 1);
+      border: 1px solid var(--border-subtle);
+      background-color: var(--surface);
+      color: var(--ink);
+      transition: all 0.08s linear;
     }
+
     .option-btn:hover:not(:disabled) {
-      transform: translateY(-1px);
+      border-color: var(--border-strong);
+      background-color: var(--surface-hover);
+      transform: translateX(4px);
+      box-shadow: -4px 0px 0px var(--accent);
     }
+
+    /* Custom angular checkbox */
+    input[type="checkbox"] {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 14px;
+      height: 14px;
+      border: 1px solid var(--border-strong);
+      background-color: var(--surface);
+      display: inline-grid;
+      place-content: center;
+      cursor: pointer;
+    }
+
+    input[type="checkbox"]::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      transform: scale(0);
+      background-color: var(--accent);
+      transition: 0.08s transform linear;
+    }
+
+    input[type="checkbox"]:checked::before {
+      transform: scale(1);
+    }
+
     .fade-in {
-      animation: fadeIn 0.2s ease-out;
+      animation: fadeIn 0.14s linear;
     }
+
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(4px); }
-      to { opacity: 1; transform: translateY(0); }
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
   </style>
 </head>
-<body class="min-h-screen flex flex-col bg-slate-50 text-slate-900">
+<body class="min-h-screen flex flex-col selection:bg-[#C83E1D] selection:text-white">
 
-  <!-- Top Navigation Header -->
-  <header class="sticky top-0 z-30 bg-white/95 backdrop-blur border-b border-slate-200 shadow-sm">
-    <div class="max-w-6xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-3">
+  <!-- Top Architectural Masthead -->
+  <header class="sticky top-0 z-30 border-b border-[var(--border-strong)] bg-[var(--surface)]">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-4">
+      <!-- Brand / Index Block -->
       <div class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-xl bg-indigo-600 text-white flex items-center justify-center font-extrabold text-lg shadow-sm">
+        <div class="w-10 h-10 border border-[var(--border-strong)] bg-[var(--ink)] text-[var(--bg)] flex items-center justify-center font-display font-extrabold text-lg tracking-tighter">
           Ψ
         </div>
-        <div>
-          <div class="flex items-center gap-2">
-            <h1 class="font-bold text-base sm:text-lg text-slate-900 tracking-tight">Psychology of Learning</h1>
-            <span class="hidden sm:inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-indigo-50 text-indigo-700 border border-indigo-200">
-              NPTEL Weeks 0–12 (130 Qs)
+        <div class="border-l border-[var(--border-subtle)] pl-3">
+          <div class="flex items-center gap-2.5">
+            <h1 class="font-display font-extrabold text-sm sm:text-base uppercase tracking-wider text-[var(--ink)]">Psychology of Learning</h1>
+            <span class="hidden sm:inline-block px-2 py-0.5 text-[10px] font-mono-tech font-bold uppercase tracking-widest border border-[var(--border-strong)] bg-[var(--surface-alt)] text-[var(--ink)]">
+              NPTEL // WK 00–12 // 130 Qs
             </span>
           </div>
-          <p class="text-xs text-slate-500">Phase 1: Week-by-Week Mastery &rarr; Phase 2: Random Shuffled Recall</p>
+          <p class="text-[11px] font-mono-tech text-[var(--ink-muted)] uppercase tracking-wider mt-0.5">
+            SYS.01: SEQUENTIAL WEEK DRILL &rarr; SYS.02: STOCHASTIC RECALL
+          </p>
         </div>
       </div>
 
-      <!-- Mode Switcher Tabs -->
-      <nav class="flex items-center gap-1.5 bg-slate-100 p-1 rounded-xl border border-slate-200 overflow-x-auto max-w-full" aria-label="Main Modes">
-        <button id="tab-roadmap" type="button" class="px-3 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition-all bg-white text-indigo-700 shadow-sm">
-          1. Week-Wise (0–12)
+      <!-- Right Controls: Mode Switcher + Theme Toggle -->
+      <div class="flex items-center gap-2 max-w-full overflow-x-auto">
+        <nav class="flex items-center border border-[var(--border-strong)] bg-[var(--surface-alt)]" aria-label="Main Modes">
+          <button id="tab-roadmap" type="button" class="px-3 py-2 text-xs font-mono-tech font-semibold uppercase tracking-wider border-r border-[var(--border-strong)] transition-none">
+            1. Week-Wise (0–12)
+          </button>
+          <button id="tab-random" type="button" class="px-3 py-2 text-xs font-mono-tech font-semibold uppercase tracking-wider border-r border-[var(--border-strong)] transition-none">
+            2. Random Shuffle
+          </button>
+          <button id="tab-missed" type="button" class="px-3 py-2 text-xs font-mono-tech font-semibold uppercase tracking-wider border-r border-[var(--border-strong)] flex items-center gap-1.5 transition-none">
+            <span>Weak / Flagged</span>
+            <span id="badge-missed" class="px-1.5 py-0.2 text-[10px] border border-[var(--border-strong)] bg-[var(--accent)] text-white font-bold">0</span>
+          </button>
+          <button id="tab-bank" type="button" class="px-3 py-2 text-xs font-mono-tech font-semibold uppercase tracking-wider transition-none">
+            Study Sheet (All 130)
+          </button>
+        </nav>
+
+        <!-- Dark Mode / Beige Light Mode Toggle -->
+        <button id="btn-theme-toggle" type="button" class="btn-angular px-3 py-2 text-xs font-bold flex items-center gap-1.5 shrink-0" title="Toggle Beige Light / Carbon Dark Mode (Key: D)">
+          <span id="theme-indicator-dot" class="w-2.5 h-2.5 inline-block border border-[var(--border-strong)] bg-[var(--ink)]"></span>
+          <span id="theme-toggle-label">DARK</span>
         </button>
-        <button id="tab-random" type="button" class="px-3 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition-all text-slate-600 hover:text-slate-900">
-          2. Random Shuffle
-        </button>
-        <button id="tab-missed" type="button" class="px-3 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition-all text-slate-600 hover:text-slate-900 flex items-center gap-1.5">
-          <span>Weak / Flagged</span>
-          <span id="badge-missed" class="px-1.5 py-0.2 rounded-full text-[11px] bg-amber-100 text-amber-800 font-bold">0</span>
-        </button>
-        <button id="tab-bank" type="button" class="px-3 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition-all text-slate-600 hover:text-slate-900">
-          Study Sheet (All 130)
-        </button>
-      </nav>
+      </div>
     </div>
   </header>
 
-  <!-- Global Mastery Progress Bar & Controls -->
-  <section class="bg-white border-b border-slate-200">
+  <!-- Telemetry & Parameter Strip -->
+  <section class="border-b border-[var(--border-strong)] bg-[var(--surface-alt)]">
     <div class="max-w-6xl mx-auto px-4 py-2.5 flex flex-wrap items-center justify-between gap-4">
-      <div class="flex items-center gap-4 flex-1 min-w-[240px]">
+      <!-- Mastery Progress Readout -->
+      <div class="flex items-center gap-4 flex-1 min-w-[260px]">
         <div class="flex-1 max-w-md">
-          <div class="flex items-center justify-between text-xs font-medium text-slate-600 mb-1">
-            <span>Overall Memorization Mastery</span>
-            <span id="global-mastery-text" class="font-bold text-indigo-700">0 / 130 Mastered (0%)</span>
+          <div class="flex items-center justify-between text-[11px] font-mono-tech uppercase tracking-wider text-[var(--ink-muted)] mb-1">
+            <span>MEMORIZATION INDEX</span>
+            <span id="global-mastery-text" class="font-bold text-[var(--ink)]">0 / 130 Mastered (0%)</span>
           </div>
-          <div class="w-full h-2 bg-slate-100 rounded-full overflow-hidden border border-slate-200">
-            <div id="global-mastery-bar" class="h-full bg-gradient-to-r from-indigo-600 to-emerald-500 transition-all duration-300" style="width: 0%"></div>
+          <div class="w-full h-2.5 bg-[var(--surface)] border border-[var(--border-strong)] p-0.5">
+            <div id="global-mastery-bar" class="h-full bg-[var(--accent)] transition-all duration-200" style="width: 0%"></div>
           </div>
         </div>
-        <div class="hidden md:flex items-center gap-3 text-xs border-l border-slate-200 pl-4">
-          <div class="px-2.5 py-1 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-800 font-semibold">
-            Weeks Completed: <span id="weeks-done-count">0/13</span>
+
+        <div class="hidden md:flex items-center gap-2 text-[11px] font-mono-tech uppercase border-l border-[var(--border-strong)] pl-4">
+          <div class="px-2.5 py-1 border border-[var(--border-subtle)] bg-[var(--surface)] text-[var(--ink)] font-semibold">
+            WEEKS: <span id="weeks-done-count">0/13</span>
           </div>
-          <div class="px-2.5 py-1 rounded-lg bg-indigo-50 border border-indigo-200 text-indigo-800 font-semibold">
-            Streak: <span id="current-streak">0</span> 🔥
+          <div class="px-2.5 py-1 border border-[var(--border-subtle)] bg-[var(--surface)] text-[var(--ink)] font-semibold">
+            STREAK: <span id="current-streak">0</span>
           </div>
         </div>
       </div>
 
-      <!-- Memorization Settings Toggles -->
-      <div class="flex flex-wrap items-center gap-2 text-xs">
-        <label class="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-slate-50 hover:bg-slate-100 border border-slate-200 cursor-pointer select-none">
-          <input type="checkbox" id="toggle-shuffle-options" class="rounded text-indigo-600 focus:ring-indigo-500" />
-          <span class="font-medium text-slate-700">Shuffle Options (A–D)</span>
+      <!-- Drill Toggles -->
+      <div class="flex flex-wrap items-center gap-2 text-[11px] font-mono-tech uppercase tracking-wider">
+        <label class="inline-flex items-center gap-2 px-2.5 py-1.5 border border-[var(--border-subtle)] bg-[var(--surface)] hover:border-[var(--border-strong)] cursor-pointer select-none">
+          <input type="checkbox" id="toggle-shuffle-options" />
+          <span class="font-medium text-[var(--ink)]">Shuffle Options (A–D)</span>
         </label>
-        <label class="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-slate-50 hover:bg-slate-100 border border-slate-200 cursor-pointer select-none">
-          <input type="checkbox" id="toggle-active-recall" class="rounded text-indigo-600 focus:ring-indigo-500" />
-          <span class="font-medium text-slate-700">Hide Options First (Recall)</span>
+        <label class="inline-flex items-center gap-2 px-2.5 py-1.5 border border-[var(--border-subtle)] bg-[var(--surface)] hover:border-[var(--border-strong)] cursor-pointer select-none">
+          <input type="checkbox" id="toggle-active-recall" />
+          <span class="font-medium text-[var(--ink)]">Hide Options First (Recall)</span>
         </label>
-        <button id="btn-open-reset" type="button" class="px-2.5 py-1.5 rounded-lg text-slate-500 hover:text-rose-600 hover:bg-rose-50 border border-transparent hover:border-rose-200 font-medium transition-colors">
+        <button id="btn-open-reset" type="button" class="px-2.5 py-1.5 border border-[var(--border-subtle)] bg-[var(--surface)] hover:border-[var(--wrong-border)] hover:bg-[var(--wrong-bg)] hover:text-[var(--wrong-ink)] font-semibold transition-colors">
           Reset Stats
         </button>
       </div>
     </div>
   </section>
 
-  <!-- Main Workspace Container -->
+  <!-- Main Architectural Workspace -->
   <main class="flex-1 max-w-6xl w-full mx-auto px-4 py-6">
 
     <!-- VIEW 1: WEEK-WISE ROADMAP & SELECTOR -->
     <div id="view-roadmap" class="space-y-6 fade-in">
-      <!-- Guided Journey Banner -->
-      <div class="bg-gradient-to-br from-indigo-900 via-indigo-800 to-slate-900 rounded-2xl p-5 sm:p-6 text-white shadow-md flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-        <div class="space-y-1.5 max-w-2xl">
-          <div class="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-indigo-500/30 text-indigo-100 border border-indigo-400/30">
-            Step 1: Week-by-Week Mastery &rarr; Step 2: Random Exam Shuffle
+      <!-- Asymmetric Editorial Command Block (Opposite of a rounded gradient hero) -->
+      <div class="frame-strong hard-shadow grid grid-cols-1 lg:grid-cols-12">
+        <div class="lg:col-span-8 p-5 sm:p-6 border-b lg:border-b-0 lg:border-r border-[var(--border-strong)] flex flex-col justify-between gap-3">
+          <div class="flex items-center gap-2 text-[11px] font-mono-tech uppercase tracking-widest text-[var(--accent)] font-bold">
+            <span>[PROTOCOL 01 &rarr; 02]</span>
+            <span>//</span>
+            <span>SEQUENTIAL ASSIGNMENT LOCK-IN</span>
           </div>
-          <h2 id="journey-headline" class="text-xl sm:text-2xl font-bold tracking-tight">Start with Week 0 and work sequentially through Week 12</h2>
-          <p id="journey-subtext" class="text-xs sm:text-sm text-indigo-100/90 leading-relaxed">
-            Each assignment has 10 questions. Master each week one by one with instant answer verification, then test yourself in full 130-question Random Mode.
+          <h2 id="journey-headline" class="font-editorial text-2xl sm:text-3xl font-semibold text-[var(--ink)] leading-tight tracking-tight">
+            Start with Week 0 and work sequentially through Week 12
+          </h2>
+          <p id="journey-subtext" class="text-xs sm:text-sm font-mono-tech text-[var(--ink-muted)] leading-relaxed">
+            Each assignment module contains 10 questions. Achieve 10/10 verification per module before engaging full 130-question stochastic shuffle.
           </p>
         </div>
-        <div class="flex flex-wrap items-center gap-2.5 shrink-0">
-          <button id="btn-continue-journey" type="button" class="px-4 py-2.5 rounded-xl bg-white text-indigo-900 hover:bg-indigo-50 font-bold text-sm shadow-sm transition-all">
-            Start Week 0 Quiz &rarr;
+        <div class="lg:col-span-4 p-5 sm:p-6 bg-[var(--surface-alt)] flex flex-col justify-center gap-3">
+          <button id="btn-continue-journey" type="button" class="btn-angular-primary w-full py-3 px-4 font-bold text-xs text-left flex items-center justify-between">
+            <span>Start Week 0 Quiz &rarr;</span>
           </button>
-          <button id="btn-jump-random-hero" type="button" class="px-4 py-2.5 rounded-xl bg-indigo-700/60 hover:bg-indigo-700 text-white border border-indigo-400/40 font-semibold text-sm transition-all">
+          <button id="btn-jump-random-hero" type="button" class="btn-angular w-full py-3 px-4 font-semibold text-xs text-left flex items-center justify-between">
             Launch Random Mode
           </button>
         </div>
       </div>
 
-      <!-- 13 Weeks Grid -->
+      <!-- 13 Weeks Ledger Grid -->
       <div>
-        <div class="flex items-center justify-between mb-3">
-          <h3 class="text-sm font-bold uppercase tracking-wider text-slate-500">Select an Assignment Week (Weeks 0 – 12)</h3>
-          <span class="text-xs text-slate-500">Click any week to practice its 10 questions</span>
+        <div class="flex items-center justify-between border-b-2 border-[var(--border-strong)] pb-2 mb-4">
+          <h3 class="text-xs font-mono-tech font-bold uppercase tracking-widest text-[var(--ink)]">
+            INDEX // ASSIGNMENT MODULES (WEEKS 00 – 12)
+          </h3>
+          <span class="text-[11px] font-mono-tech uppercase text-[var(--ink-muted)]">10 QUESTIONS PER MODULE</span>
         </div>
-        <div id="weeks-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
+        <div id="weeks-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
           <!-- Populated dynamically via JS -->
         </div>
       </div>
@@ -148,60 +369,62 @@
 
     <!-- VIEW 2: RANDOM MODE LAUNCHER -->
     <div id="view-random-Menu" class="hidden space-y-6 fade-in">
-      <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-5">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-4">
+      <div class="frame-strong hard-shadow p-6 space-y-6">
+        <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b-2 border-[var(--border-strong)] pb-4">
           <div>
-            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-purple-100 text-purple-800 mb-1.5">
-              Phase 2: Random Mastery Mode
-            </span>
-            <h2 class="text-xl font-bold text-slate-900">Randomized Assignment Drills</h2>
-            <p class="text-sm text-slate-600">Mix questions across weeks so you can recognize any question out of context.</p>
+            <div class="text-[11px] font-mono-tech font-bold uppercase tracking-widest text-[var(--accent)] mb-1">
+              [PHASE 02 // STOCHASTIC RECALL]
+            </div>
+            <h2 class="font-editorial text-2xl sm:text-3xl font-semibold text-[var(--ink)]">Randomized Assignment Drills</h2>
+            <p class="text-xs font-mono-tech text-[var(--ink-muted)] mt-1">Strip away week-order cues and test raw recognition across selected modules.</p>
           </div>
           <div class="flex items-center gap-2">
-            <button id="btn-select-all-weeks" type="button" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 hover:bg-slate-200 text-slate-700">Select All Weeks</button>
-            <button id="btn-clear-all-weeks" type="button" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 hover:bg-slate-200 text-slate-700">Clear</button>
+            <button id="btn-select-all-weeks" type="button" class="btn-angular px-3 py-1.5 text-xs font-semibold">Select All Weeks</button>
+            <button id="btn-clear-all-weeks" type="button" class="btn-angular px-3 py-1.5 text-xs font-semibold">Clear</button>
           </div>
         </div>
 
         <!-- Week Filter Checkboxes for Custom Random Drill -->
-        <div>
-          <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2.5">Include Weeks in Random Pool:</label>
-          <div id="random-week-pills" class="flex flex-wrap gap-2">
+        <div class="space-y-2">
+          <label class="block text-[11px] font-mono-tech font-bold uppercase tracking-widest text-[var(--ink-muted)]">
+            ACTIVE MODULE POOL (CLICK TO TOGGLE):
+          </label>
+          <div id="random-week-pills" class="flex flex-wrap gap-1.5">
             <!-- Populated by JS -->
           </div>
         </div>
 
         <!-- Preset Launch Cards -->
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
-          <div class="p-4 rounded-xl border-2 border-indigo-100 bg-indigo-50/40 flex flex-col justify-between gap-3">
-            <div>
-              <div class="text-xs font-bold uppercase text-indigo-600">Full Marathon</div>
-              <div class="text-lg font-bold text-slate-900 mt-0.5">All Selected Questions</div>
-              <p class="text-xs text-slate-600 mt-1">Every question from your selected weeks (up to all 130) in completely random order.</p>
+          <div class="border border-[var(--border-strong)] bg-[var(--surface-alt)] p-5 flex flex-col justify-between gap-5">
+            <div class="space-y-1.5">
+              <div class="text-[10px] font-mono-tech font-bold uppercase tracking-widest text-[var(--accent)]">MODE // 01</div>
+              <div class="font-display text-lg font-bold text-[var(--ink)] uppercase">All Selected Questions</div>
+              <p class="text-xs font-mono-tech text-[var(--ink-muted)] leading-relaxed">Complete non-repeating traversal of every question in your active week pool.</p>
             </div>
-            <button id="btn-start-random-all" type="button" class="w-full py-2.5 px-4 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-sm shadow-sm transition-colors">
+            <button id="btn-start-random-all" type="button" class="btn-angular-primary w-full py-3 px-4 font-bold text-xs">
               Start Full Random (130 Qs)
             </button>
           </div>
 
-          <div class="p-4 rounded-xl border border-slate-200 bg-slate-50/60 flex flex-col justify-between gap-3">
-            <div>
-              <div class="text-xs font-bold uppercase text-emerald-600">Quick Exam Sprint</div>
-              <div class="text-lg font-bold text-slate-900 mt-0.5">25 Random Questions</div>
-              <p class="text-xs text-slate-600 mt-1">Rapid-fire sample drawn evenly from your selected weeks to test quick recall.</p>
+          <div class="border border-[var(--border-strong)] bg-[var(--surface)] p-5 flex flex-col justify-between gap-5">
+            <div class="space-y-1.5">
+              <div class="text-[10px] font-mono-tech font-bold uppercase tracking-widest text-[var(--ink-muted)]">MODE // 02</div>
+              <div class="font-display text-lg font-bold text-[var(--ink)] uppercase">25 Random Questions</div>
+              <p class="text-xs font-mono-tech text-[var(--ink-muted)] leading-relaxed">High-tempo exam simulation sampling 25 questions across your active pool.</p>
             </div>
-            <button id="btn-start-random-25" type="button" class="w-full py-2.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-sm shadow-sm transition-colors">
+            <button id="btn-start-random-25" type="button" class="btn-angular w-full py-3 px-4 font-bold text-xs">
               Start 25-Question Sprint
             </button>
           </div>
 
-          <div class="p-4 rounded-xl border border-slate-200 bg-slate-50/60 flex flex-col justify-between gap-3">
-            <div>
-              <div class="text-xs font-bold uppercase text-amber-600">Unmastered Focus</div>
-              <div class="text-lg font-bold text-slate-900 mt-0.5">Unmastered Only</div>
-              <p class="text-xs text-slate-600 mt-1">Randomly tests only questions you haven't answered correctly yet or got wrong recently.</p>
+          <div class="border border-[var(--border-strong)] bg-[var(--surface)] p-5 flex flex-col justify-between gap-5">
+            <div class="space-y-1.5">
+              <div class="text-[10px] font-mono-tech font-bold uppercase tracking-widest text-[var(--ink-muted)]">MODE // 03</div>
+              <div class="font-display text-lg font-bold text-[var(--ink)] uppercase">Unmastered Only</div>
+              <p class="text-xs font-mono-tech text-[var(--ink-muted)] leading-relaxed">Isolates questions not yet answered correctly or missed on your last attempt.</p>
             </div>
-            <button id="btn-start-random-unmastered" type="button" class="w-full py-2.5 px-4 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-semibold text-sm shadow-sm transition-colors">
+            <button id="btn-start-random-unmastered" type="button" class="btn-angular-accent w-full py-3 px-4 font-bold text-xs">
               Drill Unmastered Qs
             </button>
           </div>
@@ -211,19 +434,22 @@
 
     <!-- VIEW 3: WEAK / MISSED / FLAGGED DRILL -->
     <div id="view-missed" class="hidden space-y-5 fade-in">
-      <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-100">
+      <div class="frame-strong hard-shadow p-6">
+        <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-4 border-b-2 border-[var(--border-strong)]">
           <div>
-            <h2 class="text-xl font-bold text-slate-900">Weak &amp; Flagged Questions</h2>
-            <p class="text-sm text-slate-600">Questions you missed during quizzes or bookmarked with a star ★ for extra review.</p>
+            <div class="text-[11px] font-mono-tech font-bold uppercase tracking-widest text-[var(--accent)] mb-1">
+              [ERROR LOG &amp; FLAGGED QUEUE]
+            </div>
+            <h2 class="font-editorial text-2xl sm:text-3xl font-semibold text-[var(--ink)]">Weak &amp; Flagged Questions</h2>
+            <p class="text-xs font-mono-tech text-[var(--ink-muted)] mt-1">Items answered incorrectly or manually flagged with [☆] during practice.</p>
           </div>
           <div class="flex flex-wrap items-center gap-2">
-            <button id="btn-quiz-missed" type="button" class="px-4 py-2 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-semibold text-sm shadow-sm transition-colors">
+            <button id="btn-quiz-missed" type="button" class="btn-angular-accent px-4 py-2.5 font-bold text-xs">
               Quiz All Weak/Flagged Qs
             </button>
           </div>
         </div>
-        <div id="missed-list-container" class="mt-4 space-y-3">
+        <div id="missed-list-container" class="mt-4 space-y-2.5">
           <!-- Populated by JS -->
         </div>
       </div>
@@ -231,23 +457,26 @@
 
     <!-- VIEW 4: STUDY SHEET / ALL 130 REFERENCE BANK -->
     <div id="view-bank" class="hidden space-y-4 fade-in">
-      <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm space-y-4">
-        <div class="flex flex-col md:flex-row md:items-center justify-between gap-3">
+      <div class="frame-strong hard-shadow p-5 sm:p-6 space-y-5">
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b-2 border-[var(--border-strong)] pb-4">
           <div>
-            <h2 class="text-lg font-bold text-slate-900">Complete Assignment Question Bank (130 Questions)</h2>
-            <p class="text-xs text-slate-500">Filter by week, search keywords, or hide answers to self-test down the page.</p>
+            <div class="text-[11px] font-mono-tech font-bold uppercase tracking-widest text-[var(--accent)] mb-1">
+              [COMPLETE ARCHIVE // 130 ITEMS]
+            </div>
+            <h2 class="font-editorial text-2xl font-semibold text-[var(--ink)]">Complete Assignment Question Bank (130 Questions)</h2>
+            <p class="text-xs font-mono-tech text-[var(--ink-muted)] mt-0.5">Filter by week, search terms, or mask answers for rapid column self-testing.</p>
           </div>
           <div class="flex flex-wrap items-center gap-2">
-            <input id="bank-search" type="text" placeholder="Search question or answer..." class="px-3 py-1.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" />
-            <select id="bank-week-filter" class="px-3 py-1.5 rounded-xl border border-slate-300 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+            <input id="bank-search" type="text" placeholder="SEARCH ARCHIVE..." class="px-3 py-2 border border-[var(--border-strong)] bg-[var(--bg)] text-[var(--ink)] text-xs font-mono-tech focus:outline-none focus:border-[var(--accent)]" />
+            <select id="bank-week-filter" class="px-3 py-2 border border-[var(--border-strong)] bg-[var(--bg)] text-[var(--ink)] text-xs font-mono-tech focus:outline-none focus:border-[var(--accent)]">
               <option value="all">All Weeks (0–12)</option>
             </select>
-            <button id="btn-toggle-bank-answers" type="button" class="px-3 py-1.5 rounded-xl border border-indigo-200 bg-indigo-50 text-indigo-700 font-semibold text-xs hover:bg-indigo-100">
+            <button id="btn-toggle-bank-answers" type="button" class="btn-angular px-3 py-2 font-bold text-xs">
               Hide Answers (Self-Test)
             </button>
           </div>
         </div>
-        <div id="bank-questions-list" class="divide-y divide-slate-100">
+        <div id="bank-questions-list" class="divide-y divide-[var(--border-subtle)]">
           <!-- Populated by JS -->
         </div>
       </div>
@@ -256,54 +485,54 @@
     <!-- VIEW 5: ACTIVE QUIZ PLAYER -->
     <div id="view-quiz" class="hidden space-y-4 fade-in">
       <!-- Quiz Top Bar -->
-      <div class="flex flex-wrap items-center justify-between gap-2 bg-white px-4 py-3 rounded-2xl border border-slate-200 shadow-sm">
-        <div class="flex items-center gap-2.5">
-          <button id="btn-exit-quiz" type="button" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors">
+      <div class="frame-strong px-4 py-3 flex flex-wrap items-center justify-between gap-3">
+        <div class="flex items-center gap-3">
+          <button id="btn-exit-quiz" type="button" class="btn-angular px-3 py-1.5 text-xs font-bold">
             &larr; Back
           </button>
-          <div>
-            <div id="quiz-mode-title" class="text-sm font-bold text-slate-900">Week 0 Assignment</div>
-            <div id="quiz-mode-subtitle" class="text-xs text-slate-500">Question 1 of 10</div>
+          <div class="border-l border-[var(--border-subtle)] pl-3">
+            <div id="quiz-mode-title" class="text-xs sm:text-sm font-mono-tech font-bold uppercase text-[var(--ink)]">Week 0 Assignment</div>
+            <div id="quiz-mode-subtitle" class="text-[11px] font-mono-tech uppercase text-[var(--ink-muted)]">Question 1 of 10</div>
           </div>
         </div>
 
-        <div class="flex items-center gap-3">
-          <div class="text-xs font-semibold px-2.5 py-1 rounded-lg bg-emerald-50 text-emerald-700 border border-emerald-200">
-            Score: <span id="quiz-live-score">0 / 0</span>
+        <div class="flex items-center gap-2.5">
+          <div class="text-xs font-mono-tech font-bold px-3 py-1.5 border border-[var(--border-strong)] bg-[var(--surface-alt)] text-[var(--ink)]">
+            SCORE: <span id="quiz-live-score">0 / 0</span>
           </div>
-          <button id="btn-flag-current" type="button" class="px-3 py-1.5 rounded-lg text-xs font-semibold border border-slate-200 hover:bg-amber-50 text-slate-600 transition-colors flex items-center gap-1" title="Keyboard shortcut: S">
+          <button id="btn-flag-current" type="button" class="btn-angular px-3 py-1.5 text-xs font-bold flex items-center gap-1.5" title="Keyboard shortcut: S">
             <span id="flag-star-icon">☆</span> <span id="flag-star-label">Flag</span>
           </button>
         </div>
       </div>
 
-      <!-- Question Number Dots Navigator -->
-      <div id="quiz-dots-bar" class="flex items-center gap-1.5 overflow-x-auto py-1 px-1">
+      <!-- Question Number Matrix Navigator -->
+      <div id="quiz-dots-bar" class="flex items-center gap-1 overflow-x-auto py-1">
         <!-- Populated by JS -->
       </div>
 
       <!-- Question Card -->
-      <div class="bg-white rounded-2xl border border-slate-200 p-5 sm:p-7 shadow-sm space-y-6">
-        <div class="flex items-start justify-between gap-3">
-          <div class="space-y-2 flex-1">
-            <div class="flex flex-wrap items-center gap-2">
-              <span id="q-week-badge" class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-indigo-100 text-indigo-800">
-                Week 0 • Q1
-              </span>
-              <span id="q-status-pill" class="px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-100 text-slate-600">
-                Unattempted
-              </span>
-            </div>
-            <h3 id="q-text" class="text-base sm:text-xl font-bold text-slate-900 leading-snug pt-1">
-              Question text goes here
-            </h3>
+      <div class="frame-strong hard-shadow p-5 sm:p-8 space-y-6">
+        <div class="space-y-3 border-b border-[var(--border-subtle)] pb-5">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <span id="q-week-badge" class="px-2.5 py-1 text-xs font-mono-tech font-bold uppercase bg-[var(--ink)] text-[var(--bg)]">
+              Week 0 • Q1
+            </span>
+            <span id="q-status-pill" class="px-2.5 py-1 text-[11px] font-mono-tech uppercase border border-[var(--border-subtle)] bg-[var(--surface-alt)] text-[var(--ink-muted)]">
+              Unattempted
+            </span>
           </div>
+          <h3 id="q-text" class="font-editorial text-xl sm:text-2xl md:text-[26px] font-medium text-[var(--ink)] leading-snug pt-1">
+            Question text goes here
+          </h3>
         </div>
 
         <!-- Active Recall Shield (Shown when "Hide Options First" is enabled) -->
-        <div id="active-recall-shield" class="hidden p-6 rounded-xl bg-indigo-50/70 border border-indigo-200 text-center space-y-3">
-          <p class="text-sm font-medium text-indigo-950">Think of the exact answer for the blank/question above before peeking at the choices!</p>
-          <button id="btn-reveal-options" type="button" class="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-sm shadow-sm transition-colors">
+        <div id="active-recall-shield" class="hidden p-6 border-2 border-dashed border-[var(--border-strong)] bg-[var(--surface-alt)] text-center space-y-4">
+          <p class="text-xs sm:text-sm font-mono-tech uppercase tracking-wider text-[var(--ink)]">
+            [ACTIVE RECALL ENGAGED] — FORMULATE YOUR ANSWER BEFORE UNLOCKING CHOICES
+          </p>
+          <button id="btn-reveal-options" type="button" class="btn-angular-primary px-5 py-2.5 font-bold text-xs">
             Reveal Options (or press Space)
           </button>
         </div>
@@ -314,18 +543,20 @@
         </div>
 
         <!-- Feedback Banner -->
-        <div id="q-feedback-box" class="hidden p-4 rounded-xl border text-sm space-y-1 fade-in">
-          <div id="q-feedback-headline" class="font-bold"></div>
-          <div id="q-feedback-detail" class="text-xs opacity-90"></div>
+        <div id="q-feedback-box" class="hidden p-4 border text-xs font-mono-tech space-y-1 fade-in">
+          <div id="q-feedback-headline" class="font-bold text-sm"></div>
+          <div id="q-feedback-detail" class="opacity-90"></div>
         </div>
 
         <!-- Quiz Footer Navigation -->
-        <div class="flex items-center justify-between pt-3 border-t border-slate-100">
-          <button id="btn-prev-q" type="button" class="px-4 py-2 rounded-xl border border-slate-200 text-slate-700 hover:bg-slate-50 font-semibold text-xs sm:text-sm disabled:opacity-40 disabled:pointer-events-none">
+        <div class="flex items-center justify-between pt-4 border-t border-[var(--border-strong)]">
+          <button id="btn-prev-q" type="button" class="btn-angular px-4 py-2.5 font-bold text-xs disabled:opacity-35 disabled:pointer-events-none">
             &larr; Previous
           </button>
-          <span class="hidden sm:inline text-[11px] text-slate-400">Keys: 1–4 or A–D to answer • &larr;/&rarr; or Enter to navigate • S to flag</span>
-          <button id="btn-next-q" type="button" class="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-xs sm:text-sm shadow-sm transition-colors">
+          <span class="hidden sm:inline text-[10px] font-mono-tech uppercase tracking-wider text-[var(--ink-muted)]">
+            [1–4 / A–D] SELECT &bull; [&larr;/&rarr; / ENTER] STEP &bull; [S] FLAG &bull; [D] THEME
+          </span>
+          <button id="btn-next-q" type="button" class="btn-angular-primary px-5 py-2.5 font-bold text-xs">
             Next Question &rarr;
           </button>
         </div>
@@ -334,34 +565,36 @@
 
     <!-- VIEW 6: QUIZ RESULTS & NEXT STEP SCREEN -->
     <div id="view-results" class="hidden space-y-6 fade-in">
-      <div class="bg-white rounded-2xl border border-slate-200 p-6 sm:p-8 shadow-sm text-center space-y-5 max-w-2xl mx-auto">
-        <div id="results-badge-icon" class="w-16 h-16 rounded-2xl bg-emerald-100 text-emerald-700 flex items-center justify-center text-3xl font-extrabold mx-auto">
-          ✓
+      <div class="frame-strong hard-shadow p-6 sm:p-8 text-center space-y-5 max-w-2xl mx-auto">
+        <div id="results-badge-icon" class="w-14 h-14 border-2 border-[var(--border-strong)] bg-[var(--surface-alt)] text-[var(--ink)] flex items-center justify-center text-xl font-mono-tech font-bold mx-auto">
+          OK
         </div>
-        <div class="space-y-1">
-          <div id="results-subtitle" class="text-xs font-bold uppercase tracking-wider text-indigo-600">Week Completed</div>
-          <h2 id="results-title" class="text-2xl font-extrabold text-slate-900">10 / 10 Correct (100%)</h2>
-          <p id="results-message" class="text-sm text-slate-600">You've locked in every question in this set.</p>
+        <div class="space-y-1.5">
+          <div id="results-subtitle" class="text-xs font-mono-tech font-bold uppercase tracking-widest text-[var(--accent)]">Week Completed</div>
+          <h2 id="results-title" class="font-display text-2xl sm:text-3xl font-extrabold uppercase text-[var(--ink)]">10 / 10 Correct (100%)</h2>
+          <p id="results-message" class="text-xs font-mono-tech text-[var(--ink-muted)]">You've locked in every question in this set.</p>
         </div>
 
         <!-- Primary Action Buttons -->
         <div class="flex flex-wrap items-center justify-center gap-3 pt-2">
-          <button id="btn-results-retry-missed" type="button" class="hidden px-5 py-2.5 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-bold text-sm shadow-sm transition-colors">
+          <button id="btn-results-retry-missed" type="button" class="hidden btn-angular-accent px-5 py-2.5 font-bold text-xs">
             Retry Missed Questions Now
           </button>
-          <button id="btn-results-replay" type="button" class="px-4 py-2.5 rounded-xl border border-slate-300 hover:bg-slate-50 text-slate-700 font-semibold text-sm transition-colors">
+          <button id="btn-results-replay" type="button" class="btn-angular px-4 py-2.5 font-bold text-xs">
             Replay This Set
           </button>
-          <button id="btn-results-next-action" type="button" class="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm shadow-sm transition-colors">
+          <button id="btn-results-next-action" type="button" class="btn-angular-primary px-5 py-2.5 font-bold text-xs">
             Continue to Next Week &rarr;
           </button>
         </div>
       </div>
 
       <!-- Question-by-Question Review of the Completed Round -->
-      <div class="bg-white rounded-2xl border border-slate-200 p-5 sm:p-6 shadow-sm space-y-4 max-w-4xl mx-auto">
-        <h3 class="text-sm font-bold uppercase tracking-wider text-slate-500">Round Breakdown</h3>
-        <div id="results-review-list" class="divide-y divide-slate-100">
+      <div class="frame-strong p-5 sm:p-6 space-y-4 max-w-4xl mx-auto">
+        <h3 class="text-xs font-mono-tech font-bold uppercase tracking-widest text-[var(--ink)] border-b-2 border-[var(--border-strong)] pb-2">
+          ROUND AUDIT LOG
+        </h3>
+        <div id="results-review-list" class="divide-y divide-[var(--border-subtle)]">
           <!-- Populated by JS -->
         </div>
       </div>
@@ -370,13 +603,16 @@
   </main>
 
   <!-- Reset Confirmation Modal -->
-  <div id="modal-reset" class="hidden fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-xs flex items-center justify-center p-4">
-    <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-xl border border-slate-200 space-y-4 fade-in">
-      <h3 class="text-lg font-bold text-slate-900">Reset All Memorization Progress?</h3>
-      <p class="text-sm text-slate-600">This will clear your week-by-week mastery scores, streak, and missed-question history so you can start fresh from Week 0.</p>
-      <div class="flex items-center justify-end gap-2.5 pt-2">
-        <button id="btn-cancel-reset" type="button" class="px-4 py-2 rounded-xl border border-slate-200 text-slate-700 hover:bg-slate-50 font-semibold text-sm">Cancel</button>
-        <button id="btn-confirm-reset" type="button" class="px-4 py-2 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-semibold text-sm">Yes, Reset Everything</button>
+  <div id="modal-reset" class="hidden fixed inset-0 z-50 bg-black/70 flex items-center justify-center p-4">
+    <div class="frame-strong hard-shadow max-w-md w-full p-6 space-y-4 fade-in">
+      <div class="text-[11px] font-mono-tech font-bold uppercase tracking-widest text-[var(--accent)]">[CONFIRM SYSTEM RESET]</div>
+      <h3 class="font-editorial text-xl font-semibold text-[var(--ink)]">Reset All Memorization Progress?</h3>
+      <p class="text-xs font-mono-tech text-[var(--ink-muted)] leading-relaxed">
+        This action purges all week mastery records, active streaks, and flagged error logs so you can restart from Week 00.
+      </p>
+      <div class="flex items-center justify-end gap-2.5 pt-2 border-t border-[var(--border-subtle)]">
+        <button id="btn-cancel-reset" type="button" class="btn-angular px-4 py-2 font-bold text-xs">Cancel</button>
+        <button id="btn-confirm-reset" type="button" class="btn-angular-accent px-4 py-2 font-bold text-xs">Yes, Reset Everything</button>
       </div>
     </div>
   </div>
@@ -390,12 +626,13 @@
     let appState = {
       masteredIds: {},     // { [qId]: true } when last attempt was correct
       attemptsById: {},    // { [qId]: { correct: number, wrong: number } }
-      missedIds: {},       // { [qId]: true } if missed and not yet redeemed, or ever missed
+      missedIds: {},       // { [qId]: true } if missed and not yet redeemed
       flaggedIds: {},      // { [qId]: true } user-starred
       weekBestScore: {},   // { [weekNum]: number (out of 10) }
       streak: 0,
       shuffleOptions: false,
       activeRecall: false,
+      darkMode: false,
       selectedRandomWeeks: [0,1,2,3,4,5,6,7,8,9,10,11,12]
     };
 
@@ -417,6 +654,26 @@
       } catch (e) {
         // Ignore storage errors
       }
+    }
+
+    function applyTheme() {
+      const root = document.documentElement;
+      const theme = appState.darkMode ? 'dark' : 'light';
+      root.setAttribute('data-theme', theme);
+      const label = document.getElementById('theme-toggle-label');
+      const dot = document.getElementById('theme-indicator-dot');
+      if (label) {
+        label.textContent = appState.darkMode ? 'LIGHT (BEIGE)' : 'DARK';
+      }
+      if (dot) {
+        dot.style.backgroundColor = appState.darkMode ? '#EAE3D2' : '#121110';
+      }
+    }
+
+    function toggleTheme() {
+      appState.darkMode = !appState.darkMode;
+      saveState();
+      applyTheme();
     }
 
     // Active Quiz Session State
@@ -469,10 +726,11 @@
       Object.keys(tabMap).forEach(tabId => {
         const btn = document.getElementById(tabId);
         if (!btn) return;
+        const borderRight = tabId !== 'tab-bank' ? 'border-r border-[var(--border-strong)]' : '';
         if (tabMap[tabId]) {
-          btn.className = 'px-3 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition-all bg-white text-indigo-700 shadow-sm flex items-center gap-1.5';
+          btn.className = `px-3 py-2 text-xs font-mono-tech font-bold uppercase tracking-wider ${borderRight} bg-[var(--ink)] text-[var(--bg)] flex items-center gap-1.5`;
         } else {
-          btn.className = 'px-3 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition-all text-slate-600 hover:text-slate-900 flex items-center gap-1.5';
+          btn.className = `px-3 py-2 text-xs font-mono-tech font-semibold uppercase tracking-wider ${borderRight} bg-[var(--surface)] text-[var(--ink-muted)] hover:text-[var(--ink)] hover:bg-[var(--surface-hover)] flex items-center gap-1.5`;
         }
       });
     }
@@ -536,37 +794,38 @@
 
       WEEKS_META.forEach(meta => {
         const w = meta.week;
+        const wCode = w < 10 ? '0' + w : String(w);
         const wQuestions = QUESTIONS.filter(q => q.week === w);
         const masteredInWeek = wQuestions.filter(q => appState.masteredIds[q.id]).length;
         const bestScore = appState.weekBestScore[w] !== undefined ? appState.weekBestScore[w] : null;
         const isPerfect = bestScore === 10 || masteredInWeek === 10;
 
         const card = document.createElement('div');
-        card.className = `group rounded-2xl border p-4 transition-all flex flex-col justify-between gap-3 bg-white hover:shadow-md cursor-pointer ${
-          isPerfect ? 'border-emerald-300 bg-emerald-50/20' : 'border-slate-200 hover:border-indigo-300'
+        card.className = `week-cell p-5 flex flex-col justify-between gap-4 cursor-pointer ${
+          isPerfect ? 'week-cell-mastered' : ''
         }`;
         card.addEventListener('click', () => startWeekQuiz(w));
 
         const statusBadge = isPerfect
-          ? `<span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800 border border-emerald-200">✓ 10/10 Mastered</span>`
+          ? `<span class="px-2 py-0.5 text-[10px] font-mono-tech font-bold uppercase border border-[var(--correct-border)] bg-[var(--correct-bg)] text-[var(--correct-ink)]">[10/10 LOCKED]</span>`
           : bestScore !== null
-          ? `<span class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-amber-100 text-amber-800">Best: ${bestScore}/10</span>`
-          : `<span class="px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-100 text-slate-600">${masteredInWeek}/10 Mastered</span>`;
+          ? `<span class="px-2 py-0.5 text-[10px] font-mono-tech font-bold uppercase border border-[var(--border-strong)] bg-[var(--warn-bg)] text-[var(--warn-ink)]">BEST: ${bestScore}/10</span>`
+          : `<span class="px-2 py-0.5 text-[10px] font-mono-tech uppercase border border-[var(--border-subtle)] bg-[var(--surface-alt)] text-[var(--ink-muted)]">${masteredInWeek}/10 MASTERED</span>`;
 
         card.innerHTML = `
-          <div class="space-y-2">
-            <div class="flex items-center justify-between gap-2">
-              <span class="text-xs font-extrabold uppercase tracking-wider text-indigo-600">Week ${w < 10 ? '0' + w : w}</span>
+          <div class="space-y-2.5">
+            <div class="flex items-center justify-between gap-2 border-b border-[var(--border-subtle)] pb-2">
+              <span class="text-xs font-mono-tech font-bold uppercase tracking-widest text-[var(--accent)]">WK // ${wCode}</span>
               ${statusBadge}
             </div>
-            <h4 class="font-bold text-slate-900 group-hover:text-indigo-700 transition-colors text-base leading-snug">${meta.title}</h4>
-            <p class="text-xs text-slate-500 line-clamp-2 leading-relaxed">${meta.subtitle}</p>
+            <h4 class="font-editorial font-semibold text-[var(--ink)] text-lg leading-snug">${meta.title}</h4>
+            <p class="text-[11px] font-mono-tech text-[var(--ink-muted)] line-clamp-2 leading-relaxed">${meta.subtitle}</p>
           </div>
-          <div class="pt-2 border-t border-slate-100 flex items-center justify-between text-xs">
-            <div class="w-28 h-1.5 bg-slate-100 rounded-full overflow-hidden">
-              <div class="h-full ${isPerfect ? 'bg-emerald-500' : 'bg-indigo-600'}" style="width: ${masteredInWeek * 10}%"></div>
+          <div class="pt-3 border-t border-[var(--border-subtle)] flex items-center justify-between text-[11px] font-mono-tech uppercase">
+            <div class="w-24 h-2 bg-[var(--surface-alt)] border border-[var(--border-strong)] p-0.5">
+              <div class="h-full ${isPerfect ? 'bg-[var(--correct-border)]' : 'bg-[var(--ink)]'}" style="width: ${masteredInWeek * 10}%"></div>
             </div>
-            <span class="font-semibold text-indigo-600 group-hover:translate-x-0.5 transition-transform">Practice 10 Qs &rarr;</span>
+            <span class="font-bold text-[var(--ink)]">ENGAGE 10 Qs &rarr;</span>
           </div>
         `;
         container.appendChild(card);
@@ -580,15 +839,16 @@
 
       WEEKS_META.forEach(meta => {
         const w = meta.week;
+        const wCode = w < 10 ? '0' + w : String(w);
         const isSelected = appState.selectedRandomWeeks.includes(w);
         const btn = document.createElement('button');
         btn.type = 'button';
-        btn.className = `px-3 py-1.5 rounded-xl text-xs font-semibold border transition-all ${
+        btn.className = `px-3 py-1.5 text-xs font-mono-tech font-bold uppercase border transition-none ${
           isSelected
-            ? 'bg-indigo-600 text-white border-indigo-600 shadow-xs'
-            : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'
+            ? 'bg-[var(--ink)] text-[var(--bg)] border-[var(--border-strong)]'
+            : 'bg-[var(--surface)] text-[var(--ink-muted)] border-[var(--border-subtle)] hover:border-[var(--border-strong)]'
         }`;
-        btn.textContent = `Week ${w}`;
+        btn.textContent = `WK ${wCode}`;
         btn.addEventListener('click', () => {
           if (appState.selectedRandomWeeks.includes(w)) {
             if (appState.selectedRandomWeeks.length > 1) {
@@ -622,19 +882,19 @@
 
       if (list.length === 0) {
         quizBtn.disabled = true;
-        quizBtn.className = 'px-4 py-2 rounded-xl bg-slate-200 text-slate-500 font-semibold text-sm cursor-not-allowed';
+        quizBtn.className = 'px-4 py-2.5 border border-[var(--border-subtle)] bg-[var(--surface-alt)] text-[var(--ink-muted)] font-mono-tech font-bold text-xs uppercase cursor-not-allowed';
         container.innerHTML = `
-          <div class="p-8 text-center rounded-xl bg-slate-50 border border-dashed border-slate-200 space-y-2">
-            <div class="text-2xl">🎉</div>
-            <div class="font-bold text-slate-800 text-sm">No Weak or Flagged Questions Right Now!</div>
-            <p class="text-xs text-slate-500 max-w-md mx-auto">Any question you miss during a quiz or bookmark with the ☆ Flag button will automatically appear here for targeted drilling.</p>
+          <div class="p-8 text-center border border-dashed border-[var(--border-strong)] bg-[var(--surface-alt)] space-y-2">
+            <div class="text-xs font-mono-tech font-bold uppercase tracking-widest text-[var(--correct-ink)]">[ZERO ITEMS IN QUEUE]</div>
+            <div class="font-editorial text-lg font-medium text-[var(--ink)]">No Weak or Flagged Questions Right Now</div>
+            <p class="text-xs font-mono-tech text-[var(--ink-muted)] max-w-md mx-auto">Any question missed during a session or marked with the [☆] Flag control will log here automatically.</p>
           </div>
         `;
         return;
       }
 
       quizBtn.disabled = false;
-      quizBtn.className = 'px-4 py-2 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-semibold text-sm shadow-sm transition-colors';
+      quizBtn.className = 'btn-angular-accent px-4 py-2.5 font-bold text-xs';
       quizBtn.textContent = `Quiz All ${list.length} Weak/Flagged Qs`;
 
       container.innerHTML = '';
@@ -643,19 +903,19 @@
         const isFlagged = !!appState.flaggedIds[q.id];
         const letter = ['A','B','C','D'][q.ans];
         const row = document.createElement('div');
-        row.className = 'p-4 rounded-xl border border-slate-200 bg-slate-50/50 flex flex-col sm:flex-row sm:items-center justify-between gap-3';
+        row.className = 'p-4 border border-[var(--border-subtle)] bg-[var(--surface-alt)] flex flex-col sm:flex-row sm:items-center justify-between gap-3';
         row.innerHTML = `
-          <div class="space-y-1">
-            <div class="flex items-center gap-2">
-              <span class="px-2 py-0.5 rounded text-[11px] font-bold bg-indigo-100 text-indigo-800">Week ${q.week} • Q${q.num}</span>
-              ${isMissed ? '<span class="px-2 py-0.5 rounded text-[11px] font-bold bg-rose-100 text-rose-800">Missed</span>' : ''}
-              ${isFlagged ? '<span class="px-2 py-0.5 rounded text-[11px] font-bold bg-amber-100 text-amber-800">★ Flagged</span>' : ''}
+          <div class="space-y-1.5">
+            <div class="flex items-center gap-2 font-mono-tech text-[10px] uppercase">
+              <span class="px-2 py-0.5 font-bold bg-[var(--ink)] text-[var(--bg)]">WK ${q.week} // Q${q.num}</span>
+              ${isMissed ? '<span class="px-2 py-0.5 font-bold border border-[var(--wrong-border)] bg-[var(--wrong-bg)] text-[var(--wrong-ink)]">MISSED</span>' : ''}
+              ${isFlagged ? '<span class="px-2 py-0.5 font-bold border border-[var(--border-strong)] bg-[var(--warn-bg)] text-[var(--warn-ink)]">★ FLAGGED</span>' : ''}
             </div>
-            <div class="text-sm font-semibold text-slate-900">${q.q}</div>
-            <div class="text-xs text-emerald-700 font-medium">Ans: (${letter}) ${q.options[q.ans]} <span class="text-slate-400 ml-2">[${q.ref}]</span></div>
+            <div class="font-editorial text-base font-medium text-[var(--ink)]">${q.q}</div>
+            <div class="text-xs font-mono-tech text-[var(--correct-ink)] font-semibold">ANS: [${letter}] ${q.options[q.ans]} <span class="text-[var(--ink-muted)] ml-2">// ${q.ref}</span></div>
           </div>
           <div class="flex items-center gap-2 shrink-0">
-            <button type="button" data-clear-id="${q.id}" class="px-2.5 py-1 rounded-lg border border-slate-200 bg-white hover:bg-slate-100 text-xs font-medium text-slate-600">
+            <button type="button" data-clear-id="${q.id}" class="btn-angular px-3 py-1.5 text-xs font-semibold">
               Remove
             </button>
           </div>
@@ -698,7 +958,7 @@
 
       container.innerHTML = '';
       if (filtered.length === 0) {
-        container.innerHTML = `<div class="py-8 text-center text-sm text-slate-500">No matching questions found.</div>`;
+        container.innerHTML = `<div class="py-8 text-center text-xs font-mono-tech uppercase text-[var(--ink-muted)]">No matching records in archive.</div>`;
         return;
       }
 
@@ -706,39 +966,39 @@
         const letter = ['A','B','C','D'][q.ans];
         const isMastered = !!appState.masteredIds[q.id];
         const item = document.createElement('div');
-        item.className = 'py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3';
+        item.className = 'py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3';
 
         const optionsHtml = q.options.map((opt, idx) => {
           const optLetter = ['A','B','C','D'][idx];
           const isCorrect = idx === q.ans;
           if (bankHideAnswers) {
-            return `<span class="inline-block mr-3 text-xs text-slate-500">${optLetter}) ${opt}</span>`;
+            return `<span class="inline-block mr-4 text-xs font-mono-tech text-[var(--ink-muted)]">[${optLetter}] ${opt}</span>`;
           }
-          return `<span class="inline-block mr-3 text-xs ${isCorrect ? 'font-bold text-emerald-700 underline decoration-emerald-400' : 'text-slate-500'}">${optLetter}) ${opt}</span>`;
+          return `<span class="inline-block mr-4 text-xs font-mono-tech ${isCorrect ? 'font-bold text-[var(--correct-ink)] underline' : 'text-[var(--ink-muted)]'}">[${optLetter}] ${opt}</span>`;
         }).join('');
 
         item.innerHTML = `
-          <div class="space-y-1 flex-1">
-            <div class="flex items-center gap-2">
-              <span class="px-2 py-0.5 rounded text-[11px] font-bold bg-slate-100 text-slate-700">W${q.week} • Q${q.num}</span>
-              ${isMastered ? '<span class="text-[11px] font-semibold text-emerald-600">✓ Mastered</span>' : ''}
-              <span class="text-[11px] text-slate-400">${q.ref}</span>
+          <div class="space-y-1.5 flex-1">
+            <div class="flex items-center gap-2 text-[10px] font-mono-tech uppercase">
+              <span class="px-2 py-0.5 font-bold border border-[var(--border-strong)] bg-[var(--surface-alt)] text-[var(--ink)]">W${q.week} // Q${q.num}</span>
+              ${isMastered ? '<span class="font-bold text-[var(--correct-ink)]">[MASTERED]</span>' : ''}
+              <span class="text-[var(--ink-muted)]">${q.ref}</span>
             </div>
-            <div class="text-sm font-semibold text-slate-900">${q.q}</div>
+            <div class="font-editorial text-base sm:text-lg font-medium text-[var(--ink)]">${q.q}</div>
             <div class="pt-0.5">${optionsHtml}</div>
           </div>
           <div class="shrink-0">
             ${
               bankHideAnswers
-                ? `<button type="button" class="peek-btn px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-indigo-50 text-xs font-semibold text-indigo-700">Show Answer</button>`
-                : `<div class="px-3 py-1.5 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-bold">Ans: ${letter} (${q.options[q.ans]})</div>`
+                ? `<button type="button" class="peek-btn btn-angular px-3 py-1.5 text-xs font-bold">Show Answer</button>`
+                : `<div class="px-3 py-1.5 border border-[var(--correct-border)] bg-[var(--correct-bg)] text-[var(--correct-ink)] text-xs font-mono-tech font-bold">ANS: [${letter}] ${q.options[q.ans]}</div>`
             }
           </div>
         `;
         const peekBtn = item.querySelector('.peek-btn');
         if (peekBtn) {
           peekBtn.addEventListener('click', () => {
-            peekBtn.outerHTML = `<div class="px-3 py-1.5 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-bold">Ans: ${letter} (${q.options[q.ans]})</div>`;
+            peekBtn.outerHTML = `<div class="px-3 py-1.5 border border-[var(--correct-border)] bg-[var(--correct-bg)] text-[var(--correct-ink)] text-xs font-mono-tech font-bold">ANS: [${letter}] ${q.options[q.ans]}</div>`;
           });
         }
         container.appendChild(item);
@@ -749,7 +1009,6 @@
     function buildOptionOrders(questionsList) {
       return questionsList.map(q => {
         const indices = q.options.map((_, i) => i);
-        // Only shuffle if shuffleOptions is enabled and it's not a True/False question
         if (appState.shuffleOptions && q.options.length > 2) {
           return shuffleArray(indices);
         }
@@ -840,7 +1099,7 @@
       document.getElementById('flag-star-icon').textContent = isFlagged ? '★' : '☆';
       document.getElementById('flag-star-label').textContent = isFlagged ? 'Flagged' : 'Flag';
 
-      // Dots bar
+      // Matrix Dots bar
       const dotsBar = document.getElementById('quiz-dots-bar');
       dotsBar.innerHTML = '';
       if (total <= 35) {
@@ -848,17 +1107,17 @@
           const dot = document.createElement('button');
           dot.type = 'button';
           const ansForI = quizSession.answers[i];
-          let colorCls = 'bg-white text-slate-600 border-slate-200 hover:bg-slate-100';
+          let colorCls = 'bg-[var(--surface)] text-[var(--ink-muted)] border-[var(--border-subtle)] hover:border-[var(--border-strong)]';
           if (ansForI !== undefined) {
             colorCls = ansForI === qItem.ans
-              ? 'bg-emerald-600 text-white border-emerald-600'
-              : 'bg-rose-600 text-white border-rose-600';
+              ? 'bg-[var(--correct-bg)] text-[var(--correct-ink)] border-[var(--correct-border)] font-bold'
+              : 'bg-[var(--wrong-bg)] text-[var(--wrong-ink)] border-[var(--wrong-border)] font-bold';
           }
           if (i === idx) {
-            colorCls += ' ring-2 ring-indigo-500 ring-offset-1';
+            colorCls = 'bg-[var(--ink)] text-[var(--bg)] border-[var(--border-strong)] font-bold hard-shadow-sm';
           }
-          dot.className = `w-7 h-7 rounded-lg text-xs font-bold border shrink-0 transition-all ${colorCls}`;
-          dot.textContent = String(i + 1);
+          dot.className = `w-8 h-8 text-xs font-mono-tech border shrink-0 transition-none ${colorCls}`;
+          dot.textContent = i + 1 < 10 ? '0' + (i + 1) : String(i + 1);
           dot.addEventListener('click', () => {
             quizSession.currentIndex = i;
             renderQuizQuestion();
@@ -866,27 +1125,29 @@
           dotsBar.appendChild(dot);
         });
       } else {
-        // Compact progress bar for large 130-question sessions
         const pct = Math.round(((idx + 1) / total) * 100);
         dotsBar.innerHTML = `
-          <div class="w-full bg-slate-200 h-2 rounded-full overflow-hidden">
-            <div class="bg-indigo-600 h-full transition-all duration-200" style="width: ${pct}%"></div>
+          <div class="w-full bg-[var(--surface)] border border-[var(--border-strong)] h-3 p-0.5">
+            <div class="bg-[var(--accent)] h-full transition-all duration-150" style="width: ${pct}%"></div>
           </div>
         `;
       }
 
       // Question Header & Text
-      document.getElementById('q-week-badge').textContent = `Week ${q.week} • Q${q.num}`;
+      const wCode = q.week < 10 ? '0' + q.week : String(q.week);
+      const qCode = q.num < 10 ? '0' + q.num : String(q.num);
+      document.getElementById('q-week-badge').textContent = `WEEK ${wCode} // Q.${qCode}`;
+
       const statusPill = document.getElementById('q-status-pill');
       if (appState.masteredIds[q.id]) {
-        statusPill.className = 'px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200';
-        statusPill.textContent = '✓ Previously Mastered';
+        statusPill.className = 'px-2.5 py-1 text-[11px] font-mono-tech font-bold uppercase border border-[var(--correct-border)] bg-[var(--correct-bg)] text-[var(--correct-ink)]';
+        statusPill.textContent = '[STATUS: MASTERED]';
       } else if (appState.missedIds[q.id]) {
-        statusPill.className = 'px-2.5 py-0.5 rounded-full text-xs font-semibold bg-amber-50 text-amber-800 border border-amber-200';
-        statusPill.textContent = 'Needs Review';
+        statusPill.className = 'px-2.5 py-1 text-[11px] font-mono-tech font-bold uppercase border border-[var(--wrong-border)] bg-[var(--wrong-bg)] text-[var(--wrong-ink)]';
+        statusPill.textContent = '[STATUS: NEEDS REVIEW]';
       } else {
-        statusPill.className = 'px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-100 text-slate-600';
-        statusPill.textContent = 'New Question';
+        statusPill.className = 'px-2.5 py-1 text-[11px] font-mono-tech uppercase border border-[var(--border-subtle)] bg-[var(--surface-alt)] text-[var(--ink-muted)]';
+        statusPill.textContent = '[STATUS: UNTESTED]';
       }
 
       document.getElementById('q-text').textContent = q.q;
@@ -914,38 +1175,38 @@
         btn.type = 'button';
         btn.disabled = isAnswered;
 
-        let baseCls = 'option-btn w-full text-left p-4 rounded-xl border-2 flex items-center justify-between gap-3 text-sm sm:text-base font-medium ';
-        let badgeCls = 'w-8 h-8 rounded-lg flex items-center justify-center font-bold text-xs shrink-0 ';
+        let baseCls = 'option-btn w-full text-left p-4 flex items-center justify-between gap-4 text-sm ';
+        let badgeCls = 'w-8 h-8 border flex items-center justify-center font-mono-tech font-bold text-xs shrink-0 ';
 
         if (!isAnswered) {
-          baseCls += 'border-slate-200 bg-white hover:border-indigo-400 hover:bg-indigo-50/30 text-slate-800';
-          badgeCls += 'bg-slate-100 text-slate-700';
+          baseCls += '';
+          badgeCls += 'border-[var(--border-strong)] bg-[var(--surface-alt)] text-[var(--ink)]';
         } else {
           const isThisCorrect = origOptIdx === q.ans;
           const isThisSelected = origOptIdx === userAns;
           if (isThisCorrect) {
-            baseCls += 'border-emerald-500 bg-emerald-50/80 text-emerald-950 font-semibold';
-            badgeCls += 'bg-emerald-600 text-white';
+            baseCls = 'w-full text-left p-4 flex items-center justify-between gap-4 text-sm border-2 border-[var(--correct-border)] bg-[var(--correct-bg)] text-[var(--correct-ink)] font-bold';
+            badgeCls += 'border-[var(--correct-border)] bg-[var(--correct-border)] text-[var(--bg)]';
           } else if (isThisSelected && !isThisCorrect) {
-            baseCls += 'border-rose-400 bg-rose-50/80 text-rose-950';
-            badgeCls += 'bg-rose-600 text-white';
+            baseCls = 'w-full text-left p-4 flex items-center justify-between gap-4 text-sm border-2 border-[var(--wrong-border)] bg-[var(--wrong-bg)] text-[var(--wrong-ink)] font-semibold';
+            badgeCls += 'border-[var(--wrong-border)] bg-[var(--wrong-border)] text-[var(--bg)]';
           } else {
-            baseCls += 'border-slate-100 bg-slate-50/60 text-slate-400 opacity-75';
-            badgeCls += 'bg-slate-100 text-slate-400';
+            baseCls = 'w-full text-left p-4 flex items-center justify-between gap-4 text-sm border border-[var(--border-subtle)] bg-[var(--surface)] text-[var(--ink-faint)] opacity-60';
+            badgeCls += 'border-[var(--border-subtle)] bg-[var(--surface-alt)] text-[var(--ink-faint)]';
           }
         }
 
         btn.className = baseCls;
         const rightIndicator = isAnswered
           ? (origOptIdx === q.ans
-              ? `<span class="text-xs font-bold text-emerald-700 bg-emerald-100 px-2.5 py-1 rounded-lg shrink-0">✓ Correct (PDF Ans: ${origLetter})</span>`
-              : (origOptIdx === userAns ? `<span class="text-xs font-bold text-rose-700 bg-rose-100 px-2.5 py-1 rounded-lg shrink-0">✗ Your Choice</span>` : ''))
+              ? `<span class="text-[11px] font-mono-tech font-bold uppercase px-2 py-0.5 border border-[var(--correct-border)] shrink-0">[CORRECT // KEY: ${origLetter}]</span>`
+              : (origOptIdx === userAns ? `<span class="text-[11px] font-mono-tech font-bold uppercase px-2 py-0.5 border border-[var(--wrong-border)] shrink-0">[YOUR INPUT]</span>` : ''))
           : '';
 
         btn.innerHTML = `
           <div class="flex items-center gap-3.5">
             <span class="${badgeCls}">${displayLetter}</span>
-            <span>${optText}</span>
+            <span class="font-mono-tech">${optText}</span>
           </div>
           ${rightIndicator}
         `;
@@ -965,13 +1226,13 @@
         const isCorrect = userAns === q.ans;
         const origLetter = ['A','B','C','D'][q.ans];
         if (isCorrect) {
-          fbBox.className = 'p-4 rounded-xl border border-emerald-200 bg-emerald-50 text-emerald-950 text-sm space-y-1 fade-in';
-          fbHead.textContent = `✓ Spot on! Answer: ${origLetter} = ${q.options[q.ans]}`;
+          fbBox.className = 'p-4 border-l-4 border border-[var(--correct-border)] bg-[var(--correct-bg)] text-[var(--correct-ink)] text-xs font-mono-tech space-y-1 fade-in';
+          fbHead.textContent = `[VERIFIED] — KEY ${origLetter}: ${q.options[q.ans]}`;
         } else {
-          fbBox.className = 'p-4 rounded-xl border border-rose-200 bg-rose-50 text-rose-950 text-sm space-y-1 fade-in';
-          fbHead.textContent = `✗ Incorrect — Correct Answer is ${origLetter} = ${q.options[q.ans]}`;
+          fbBox.className = 'p-4 border-l-4 border border-[var(--wrong-border)] bg-[var(--wrong-bg)] text-[var(--wrong-ink)] text-xs font-mono-tech space-y-1 fade-in';
+          fbHead.textContent = `[MISMATCH] — CORRECT KEY IS ${origLetter}: ${q.options[q.ans]}`;
         }
-        fbDetail.textContent = `Reference: ${q.ref} • Added to your mastery log.`;
+        fbDetail.textContent = `SOURCE: ${q.ref} // LOGGED TO MEMORY STATE.`;
       }
 
       // Footer Buttons
@@ -982,7 +1243,7 @@
 
     function handleSelectOption(origOptIdx) {
       const idx = quizSession.currentIndex;
-      if (quizSession.answers[idx] !== undefined) return; // already answered
+      if (quizSession.answers[idx] !== undefined) return;
 
       const q = quizSession.questions[idx];
       quizSession.answers[idx] = origOptIdx;
@@ -1040,7 +1301,6 @@
 
       const pct = Math.round((correctCount / total) * 100);
 
-      // If this was a full 10-question week quiz, record best score
       if (quizSession.mode === 'week' && total === 10 && quizSession.weekNum !== null) {
         const prevBest = appState.weekBestScore[quizSession.weekNum] || 0;
         if (correctCount > prevBest) {
@@ -1055,14 +1315,14 @@
       // Populate Results View
       const iconEl = document.getElementById('results-badge-icon');
       if (pct === 100) {
-        iconEl.className = 'w-16 h-16 rounded-2xl bg-emerald-100 text-emerald-700 flex items-center justify-center text-3xl font-extrabold mx-auto';
-        iconEl.textContent = '🏆';
+        iconEl.className = 'w-16 h-16 border-2 border-[var(--correct-border)] bg-[var(--correct-bg)] text-[var(--correct-ink)] flex items-center justify-center text-base font-mono-tech font-bold mx-auto';
+        iconEl.textContent = '100%';
       } else if (pct >= 80) {
-        iconEl.className = 'w-16 h-16 rounded-2xl bg-indigo-100 text-indigo-700 flex items-center justify-center text-3xl font-extrabold mx-auto';
-        iconEl.textContent = '★';
+        iconEl.className = 'w-16 h-16 border-2 border-[var(--border-strong)] bg-[var(--surface-alt)] text-[var(--ink)] flex items-center justify-center text-base font-mono-tech font-bold mx-auto';
+        iconEl.textContent = `${pct}%`;
       } else {
-        iconEl.className = 'w-16 h-16 rounded-2xl bg-amber-100 text-amber-700 flex items-center justify-center text-3xl font-extrabold mx-auto';
-        iconEl.textContent = '↻';
+        iconEl.className = 'w-16 h-16 border-2 border-[var(--wrong-border)] bg-[var(--wrong-bg)] text-[var(--wrong-ink)] flex items-center justify-center text-base font-mono-tech font-bold mx-auto';
+        iconEl.textContent = `${pct}%`;
       }
 
       document.getElementById('results-subtitle').textContent = quizSession.title;
@@ -1071,7 +1331,6 @@
         ? "Perfect score! Every single question in this set is locked into memory."
         : `You missed or skipped ${missedInThisRound.length} question(s). Drill the missed ones right now to reach 100%!`;
 
-      // Retry Missed Button
       const retryMissedBtn = document.getElementById('btn-results-retry-missed');
       if (missedInThisRound.length > 0) {
         retryMissedBtn.classList.remove('hidden');
@@ -1098,7 +1357,6 @@
         retryMissedBtn.classList.add('hidden');
       }
 
-      // Replay button
       document.getElementById('btn-results-replay').onclick = () => {
         if (quizSession.mode === 'week' && quizSession.weekNum !== null) {
           startWeekQuiz(quizSession.weekNum);
@@ -1114,7 +1372,6 @@
         }
       };
 
-      // Next Action button (Next week or Switch to Random)
       const nextActionBtn = document.getElementById('btn-results-next-action');
       if (quizSession.mode === 'week' && quizSession.weekNum !== null) {
         if (quizSession.weekNum < 12) {
@@ -1130,7 +1387,6 @@
         nextActionBtn.onclick = () => showView('view-random-Menu');
       }
 
-      // Breakdown list
       const reviewList = document.getElementById('results-review-list');
       reviewList.innerHTML = '';
       quizSession.questions.forEach((q, i) => {
@@ -1140,18 +1396,18 @@
         const userLetter = uAns !== undefined ? ['A','B','C','D'][uAns] : 'None';
 
         const row = document.createElement('div');
-        row.className = 'py-3.5 flex items-start justify-between gap-3';
+        row.className = 'py-4 flex items-start justify-between gap-3';
         row.innerHTML = `
-          <div class="space-y-1">
-            <div class="flex items-center gap-2">
-              <span class="px-2 py-0.5 rounded text-[11px] font-bold ${isCorrect ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'}">
-                ${isCorrect ? '✓ Correct' : '✗ Missed'}
+          <div class="space-y-1.5">
+            <div class="flex items-center gap-2 font-mono-tech text-[10px] uppercase">
+              <span class="px-2 py-0.5 font-bold border ${isCorrect ? 'border-[var(--correct-border)] bg-[var(--correct-bg)] text-[var(--correct-ink)]' : 'border-[var(--wrong-border)] bg-[var(--wrong-bg)] text-[var(--wrong-ink)]'}">
+                ${isCorrect ? '[PASS]' : '[FAIL]'}
               </span>
-              <span class="text-xs font-semibold text-slate-500">Week ${q.week} • Q${q.num}</span>
+              <span class="font-bold text-[var(--ink-muted)]">WEEK ${q.week} // Q${q.num}</span>
             </div>
-            <div class="text-sm font-semibold text-slate-900">${q.q}</div>
-            <div class="text-xs text-emerald-700 font-semibold">Correct Answer: (${correctLetter}) ${q.options[q.ans]}</div>
-            ${!isCorrect ? `<div class="text-xs text-rose-600">Your Answer: ${uAns !== undefined ? `(${userLetter}) ${q.options[uAns]}` : 'Unanswered'}</div>` : ''}
+            <div class="font-editorial text-base font-medium text-[var(--ink)]">${q.q}</div>
+            <div class="text-xs font-mono-tech text-[var(--correct-ink)] font-semibold">CORRECT KEY: [${correctLetter}] ${q.options[q.ans]}</div>
+            ${!isCorrect ? `<div class="text-xs font-mono-tech text-[var(--wrong-ink)]">YOUR INPUT: ${uAns !== undefined ? `[${userLetter}] ${q.options[uAns]}` : 'UNANSWERED'}</div>` : ''}
           </div>
         `;
         reviewList.appendChild(row);
@@ -1163,10 +1419,15 @@
     // Event Listeners Setup
     window.addEventListener('DOMContentLoaded', () => {
       loadState();
+      applyTheme();
       initBankFilter();
       updateGlobalHeader();
       renderWeeksGrid();
       renderRandomMenu();
+      updateNavTabs('view-roadmap');
+
+      // Theme Toggle
+      document.getElementById('btn-theme-toggle').addEventListener('click', () => toggleTheme());
 
       // Main Tabs
       document.getElementById('tab-roadmap').addEventListener('click', () => {
@@ -1294,11 +1555,19 @@
         showView('view-roadmap');
       });
 
-      // Keyboard Shortcuts for rapid drilling
+      // Keyboard Shortcuts
       window.addEventListener('keydown', (e) => {
-        const quizVisible = !document.getElementById('view-quiz').classList.contains('hidden');
-        if (!quizVisible) return;
         if (['INPUT', 'TEXTAREA', 'SELECT'].includes((e.target && e.target.tagName) || '')) return;
+
+        // Global shortcut 'd' or 'D' for Dark Mode when not inside active quiz (since D is option D in quiz)
+        const quizVisible = !document.getElementById('view-quiz').classList.contains('hidden');
+        if (!quizVisible && (e.key === 'd' || e.key === 'D')) {
+          e.preventDefault();
+          toggleTheme();
+          return;
+        }
+
+        if (!quizVisible) return;
 
         const idx = quizSession.currentIndex;
         const optOrder = quizSession.optionOrders[idx] || [];
