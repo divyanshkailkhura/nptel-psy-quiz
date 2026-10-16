@@ -1,0 +1,1340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NPTEL Psychology of Learning — Complete Assignment Mastery (Weeks 0–12)</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: #f8fafc;
+      color: #0f172a;
+    }
+    .option-btn {
+      transition: all 0.16s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .option-btn:hover:not(:disabled) {
+      transform: translateY(-1px);
+    }
+    .fade-in {
+      animation: fadeIn 0.2s ease-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col bg-slate-50 text-slate-900">
+
+  <!-- Top Navigation Header -->
+  <header class="sticky top-0 z-30 bg-white/95 backdrop-blur border-b border-slate-200 shadow-sm">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-3">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-indigo-600 text-white flex items-center justify-center font-extrabold text-lg shadow-sm">
+          Ψ
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 class="font-bold text-base sm:text-lg text-slate-900 tracking-tight">Psychology of Learning</h1>
+            <span class="hidden sm:inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-indigo-50 text-indigo-700 border border-indigo-200">
+              NPTEL Weeks 0–12 (130 Qs)
+            </span>
+          </div>
+          <p class="text-xs text-slate-500">Phase 1: Week-by-Week Mastery &rarr; Phase 2: Random Shuffled Recall</p>
+        </div>
+      </div>
+
+      <!-- Mode Switcher Tabs -->
+      <nav class="flex items-center gap-1.5 bg-slate-100 p-1 rounded-xl border border-slate-200 overflow-x-auto max-w-full" aria-label="Main Modes">
+        <button id="tab-roadmap" type="button" class="px-3 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition-all bg-white text-indigo-700 shadow-sm">
+          1. Week-Wise (0–12)
+        </button>
+        <button id="tab-random" type="button" class="px-3 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition-all text-slate-600 hover:text-slate-900">
+          2. Random Shuffle
+        </button>
+        <button id="tab-missed" type="button" class="px-3 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition-all text-slate-600 hover:text-slate-900 flex items-center gap-1.5">
+          <span>Weak / Flagged</span>
+          <span id="badge-missed" class="px-1.5 py-0.2 rounded-full text-[11px] bg-amber-100 text-amber-800 font-bold">0</span>
+        </button>
+        <button id="tab-bank" type="button" class="px-3 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition-all text-slate-600 hover:text-slate-900">
+          Study Sheet (All 130)
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Global Mastery Progress Bar & Controls -->
+  <section class="bg-white border-b border-slate-200">
+    <div class="max-w-6xl mx-auto px-4 py-2.5 flex flex-wrap items-center justify-between gap-4">
+      <div class="flex items-center gap-4 flex-1 min-w-[240px]">
+        <div class="flex-1 max-w-md">
+          <div class="flex items-center justify-between text-xs font-medium text-slate-600 mb-1">
+            <span>Overall Memorization Mastery</span>
+            <span id="global-mastery-text" class="font-bold text-indigo-700">0 / 130 Mastered (0%)</span>
+          </div>
+          <div class="w-full h-2 bg-slate-100 rounded-full overflow-hidden border border-slate-200">
+            <div id="global-mastery-bar" class="h-full bg-gradient-to-r from-indigo-600 to-emerald-500 transition-all duration-300" style="width: 0%"></div>
+          </div>
+        </div>
+        <div class="hidden md:flex items-center gap-3 text-xs border-l border-slate-200 pl-4">
+          <div class="px-2.5 py-1 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-800 font-semibold">
+            Weeks Completed: <span id="weeks-done-count">0/13</span>
+          </div>
+          <div class="px-2.5 py-1 rounded-lg bg-indigo-50 border border-indigo-200 text-indigo-800 font-semibold">
+            Streak: <span id="current-streak">0</span> 🔥
+          </div>
+        </div>
+      </div>
+
+      <!-- Memorization Settings Toggles -->
+      <div class="flex flex-wrap items-center gap-2 text-xs">
+        <label class="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-slate-50 hover:bg-slate-100 border border-slate-200 cursor-pointer select-none">
+          <input type="checkbox" id="toggle-shuffle-options" class="rounded text-indigo-600 focus:ring-indigo-500" />
+          <span class="font-medium text-slate-700">Shuffle Options (A–D)</span>
+        </label>
+        <label class="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-slate-50 hover:bg-slate-100 border border-slate-200 cursor-pointer select-none">
+          <input type="checkbox" id="toggle-active-recall" class="rounded text-indigo-600 focus:ring-indigo-500" />
+          <span class="font-medium text-slate-700">Hide Options First (Recall)</span>
+        </label>
+        <button id="btn-open-reset" type="button" class="px-2.5 py-1.5 rounded-lg text-slate-500 hover:text-rose-600 hover:bg-rose-50 border border-transparent hover:border-rose-200 font-medium transition-colors">
+          Reset Stats
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Workspace Container -->
+  <main class="flex-1 max-w-6xl w-full mx-auto px-4 py-6">
+
+    <!-- VIEW 1: WEEK-WISE ROADMAP & SELECTOR -->
+    <div id="view-roadmap" class="space-y-6 fade-in">
+      <!-- Guided Journey Banner -->
+      <div class="bg-gradient-to-br from-indigo-900 via-indigo-800 to-slate-900 rounded-2xl p-5 sm:p-6 text-white shadow-md flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+        <div class="space-y-1.5 max-w-2xl">
+          <div class="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-indigo-500/30 text-indigo-100 border border-indigo-400/30">
+            Step 1: Week-by-Week Mastery &rarr; Step 2: Random Exam Shuffle
+          </div>
+          <h2 id="journey-headline" class="text-xl sm:text-2xl font-bold tracking-tight">Start with Week 0 and work sequentially through Week 12</h2>
+          <p id="journey-subtext" class="text-xs sm:text-sm text-indigo-100/90 leading-relaxed">
+            Each assignment has 10 questions. Master each week one by one with instant answer verification, then test yourself in full 130-question Random Mode.
+          </p>
+        </div>
+        <div class="flex flex-wrap items-center gap-2.5 shrink-0">
+          <button id="btn-continue-journey" type="button" class="px-4 py-2.5 rounded-xl bg-white text-indigo-900 hover:bg-indigo-50 font-bold text-sm shadow-sm transition-all">
+            Start Week 0 Quiz &rarr;
+          </button>
+          <button id="btn-jump-random-hero" type="button" class="px-4 py-2.5 rounded-xl bg-indigo-700/60 hover:bg-indigo-700 text-white border border-indigo-400/40 font-semibold text-sm transition-all">
+            Launch Random Mode
+          </button>
+        </div>
+      </div>
+
+      <!-- 13 Weeks Grid -->
+      <div>
+        <div class="flex items-center justify-between mb-3">
+          <h3 class="text-sm font-bold uppercase tracking-wider text-slate-500">Select an Assignment Week (Weeks 0 – 12)</h3>
+          <span class="text-xs text-slate-500">Click any week to practice its 10 questions</span>
+        </div>
+        <div id="weeks-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
+          <!-- Populated dynamically via JS -->
+        </div>
+      </div>
+    </div>
+
+    <!-- VIEW 2: RANDOM MODE LAUNCHER -->
+    <div id="view-random-Menu" class="hidden space-y-6 fade-in">
+      <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-5">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-4">
+          <div>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-purple-100 text-purple-800 mb-1.5">
+              Phase 2: Random Mastery Mode
+            </span>
+            <h2 class="text-xl font-bold text-slate-900">Randomized Assignment Drills</h2>
+            <p class="text-sm text-slate-600">Mix questions across weeks so you can recognize any question out of context.</p>
+          </div>
+          <div class="flex items-center gap-2">
+            <button id="btn-select-all-weeks" type="button" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 hover:bg-slate-200 text-slate-700">Select All Weeks</button>
+            <button id="btn-clear-all-weeks" type="button" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 hover:bg-slate-200 text-slate-700">Clear</button>
+          </div>
+        </div>
+
+        <!-- Week Filter Checkboxes for Custom Random Drill -->
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2.5">Include Weeks in Random Pool:</label>
+          <div id="random-week-pills" class="flex flex-wrap gap-2">
+            <!-- Populated by JS -->
+          </div>
+        </div>
+
+        <!-- Preset Launch Cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
+          <div class="p-4 rounded-xl border-2 border-indigo-100 bg-indigo-50/40 flex flex-col justify-between gap-3">
+            <div>
+              <div class="text-xs font-bold uppercase text-indigo-600">Full Marathon</div>
+              <div class="text-lg font-bold text-slate-900 mt-0.5">All Selected Questions</div>
+              <p class="text-xs text-slate-600 mt-1">Every question from your selected weeks (up to all 130) in completely random order.</p>
+            </div>
+            <button id="btn-start-random-all" type="button" class="w-full py-2.5 px-4 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-sm shadow-sm transition-colors">
+              Start Full Random (130 Qs)
+            </button>
+          </div>
+
+          <div class="p-4 rounded-xl border border-slate-200 bg-slate-50/60 flex flex-col justify-between gap-3">
+            <div>
+              <div class="text-xs font-bold uppercase text-emerald-600">Quick Exam Sprint</div>
+              <div class="text-lg font-bold text-slate-900 mt-0.5">25 Random Questions</div>
+              <p class="text-xs text-slate-600 mt-1">Rapid-fire sample drawn evenly from your selected weeks to test quick recall.</p>
+            </div>
+            <button id="btn-start-random-25" type="button" class="w-full py-2.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-sm shadow-sm transition-colors">
+              Start 25-Question Sprint
+            </button>
+          </div>
+
+          <div class="p-4 rounded-xl border border-slate-200 bg-slate-50/60 flex flex-col justify-between gap-3">
+            <div>
+              <div class="text-xs font-bold uppercase text-amber-600">Unmastered Focus</div>
+              <div class="text-lg font-bold text-slate-900 mt-0.5">Unmastered Only</div>
+              <p class="text-xs text-slate-600 mt-1">Randomly tests only questions you haven't answered correctly yet or got wrong recently.</p>
+            </div>
+            <button id="btn-start-random-unmastered" type="button" class="w-full py-2.5 px-4 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-semibold text-sm shadow-sm transition-colors">
+              Drill Unmastered Qs
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- VIEW 3: WEAK / MISSED / FLAGGED DRILL -->
+    <div id="view-missed" class="hidden space-y-5 fade-in">
+      <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-100">
+          <div>
+            <h2 class="text-xl font-bold text-slate-900">Weak &amp; Flagged Questions</h2>
+            <p class="text-sm text-slate-600">Questions you missed during quizzes or bookmarked with a star ★ for extra review.</p>
+          </div>
+          <div class="flex flex-wrap items-center gap-2">
+            <button id="btn-quiz-missed" type="button" class="px-4 py-2 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-semibold text-sm shadow-sm transition-colors">
+              Quiz All Weak/Flagged Qs
+            </button>
+          </div>
+        </div>
+        <div id="missed-list-container" class="mt-4 space-y-3">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+    </div>
+
+    <!-- VIEW 4: STUDY SHEET / ALL 130 REFERENCE BANK -->
+    <div id="view-bank" class="hidden space-y-4 fade-in">
+      <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm space-y-4">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-3">
+          <div>
+            <h2 class="text-lg font-bold text-slate-900">Complete Assignment Question Bank (130 Questions)</h2>
+            <p class="text-xs text-slate-500">Filter by week, search keywords, or hide answers to self-test down the page.</p>
+          </div>
+          <div class="flex flex-wrap items-center gap-2">
+            <input id="bank-search" type="text" placeholder="Search question or answer..." class="px-3 py-1.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+            <select id="bank-week-filter" class="px-3 py-1.5 rounded-xl border border-slate-300 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+              <option value="all">All Weeks (0–12)</option>
+            </select>
+            <button id="btn-toggle-bank-answers" type="button" class="px-3 py-1.5 rounded-xl border border-indigo-200 bg-indigo-50 text-indigo-700 font-semibold text-xs hover:bg-indigo-100">
+              Hide Answers (Self-Test)
+            </button>
+          </div>
+        </div>
+        <div id="bank-questions-list" class="divide-y divide-slate-100">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+    </div>
+
+    <!-- VIEW 5: ACTIVE QUIZ PLAYER -->
+    <div id="view-quiz" class="hidden space-y-4 fade-in">
+      <!-- Quiz Top Bar -->
+      <div class="flex flex-wrap items-center justify-between gap-2 bg-white px-4 py-3 rounded-2xl border border-slate-200 shadow-sm">
+        <div class="flex items-center gap-2.5">
+          <button id="btn-exit-quiz" type="button" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors">
+            &larr; Back
+          </button>
+          <div>
+            <div id="quiz-mode-title" class="text-sm font-bold text-slate-900">Week 0 Assignment</div>
+            <div id="quiz-mode-subtitle" class="text-xs text-slate-500">Question 1 of 10</div>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <div class="text-xs font-semibold px-2.5 py-1 rounded-lg bg-emerald-50 text-emerald-700 border border-emerald-200">
+            Score: <span id="quiz-live-score">0 / 0</span>
+          </div>
+          <button id="btn-flag-current" type="button" class="px-3 py-1.5 rounded-lg text-xs font-semibold border border-slate-200 hover:bg-amber-50 text-slate-600 transition-colors flex items-center gap-1" title="Keyboard shortcut: S">
+            <span id="flag-star-icon">☆</span> <span id="flag-star-label">Flag</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Question Number Dots Navigator -->
+      <div id="quiz-dots-bar" class="flex items-center gap-1.5 overflow-x-auto py-1 px-1">
+        <!-- Populated by JS -->
+      </div>
+
+      <!-- Question Card -->
+      <div class="bg-white rounded-2xl border border-slate-200 p-5 sm:p-7 shadow-sm space-y-6">
+        <div class="flex items-start justify-between gap-3">
+          <div class="space-y-2 flex-1">
+            <div class="flex flex-wrap items-center gap-2">
+              <span id="q-week-badge" class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-indigo-100 text-indigo-800">
+                Week 0 • Q1
+              </span>
+              <span id="q-status-pill" class="px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-100 text-slate-600">
+                Unattempted
+              </span>
+            </div>
+            <h3 id="q-text" class="text-base sm:text-xl font-bold text-slate-900 leading-snug pt-1">
+              Question text goes here
+            </h3>
+          </div>
+        </div>
+
+        <!-- Active Recall Shield (Shown when "Hide Options First" is enabled) -->
+        <div id="active-recall-shield" class="hidden p-6 rounded-xl bg-indigo-50/70 border border-indigo-200 text-center space-y-3">
+          <p class="text-sm font-medium text-indigo-950">Think of the exact answer for the blank/question above before peeking at the choices!</p>
+          <button id="btn-reveal-options" type="button" class="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-sm shadow-sm transition-colors">
+            Reveal Options (or press Space)
+          </button>
+        </div>
+
+        <!-- Options List -->
+        <div id="q-options-container" class="space-y-2.5">
+          <!-- Populated by JS -->
+        </div>
+
+        <!-- Feedback Banner -->
+        <div id="q-feedback-box" class="hidden p-4 rounded-xl border text-sm space-y-1 fade-in">
+          <div id="q-feedback-headline" class="font-bold"></div>
+          <div id="q-feedback-detail" class="text-xs opacity-90"></div>
+        </div>
+
+        <!-- Quiz Footer Navigation -->
+        <div class="flex items-center justify-between pt-3 border-t border-slate-100">
+          <button id="btn-prev-q" type="button" class="px-4 py-2 rounded-xl border border-slate-200 text-slate-700 hover:bg-slate-50 font-semibold text-xs sm:text-sm disabled:opacity-40 disabled:pointer-events-none">
+            &larr; Previous
+          </button>
+          <span class="hidden sm:inline text-[11px] text-slate-400">Keys: 1–4 or A–D to answer • &larr;/&rarr; or Enter to navigate • S to flag</span>
+          <button id="btn-next-q" type="button" class="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-xs sm:text-sm shadow-sm transition-colors">
+            Next Question &rarr;
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- VIEW 6: QUIZ RESULTS & NEXT STEP SCREEN -->
+    <div id="view-results" class="hidden space-y-6 fade-in">
+      <div class="bg-white rounded-2xl border border-slate-200 p-6 sm:p-8 shadow-sm text-center space-y-5 max-w-2xl mx-auto">
+        <div id="results-badge-icon" class="w-16 h-16 rounded-2xl bg-emerald-100 text-emerald-700 flex items-center justify-center text-3xl font-extrabold mx-auto">
+          ✓
+        </div>
+        <div class="space-y-1">
+          <div id="results-subtitle" class="text-xs font-bold uppercase tracking-wider text-indigo-600">Week Completed</div>
+          <h2 id="results-title" class="text-2xl font-extrabold text-slate-900">10 / 10 Correct (100%)</h2>
+          <p id="results-message" class="text-sm text-slate-600">You've locked in every question in this set.</p>
+        </div>
+
+        <!-- Primary Action Buttons -->
+        <div class="flex flex-wrap items-center justify-center gap-3 pt-2">
+          <button id="btn-results-retry-missed" type="button" class="hidden px-5 py-2.5 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-bold text-sm shadow-sm transition-colors">
+            Retry Missed Questions Now
+          </button>
+          <button id="btn-results-replay" type="button" class="px-4 py-2.5 rounded-xl border border-slate-300 hover:bg-slate-50 text-slate-700 font-semibold text-sm transition-colors">
+            Replay This Set
+          </button>
+          <button id="btn-results-next-action" type="button" class="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm shadow-sm transition-colors">
+            Continue to Next Week &rarr;
+          </button>
+        </div>
+      </div>
+
+      <!-- Question-by-Question Review of the Completed Round -->
+      <div class="bg-white rounded-2xl border border-slate-200 p-5 sm:p-6 shadow-sm space-y-4 max-w-4xl mx-auto">
+        <h3 class="text-sm font-bold uppercase tracking-wider text-slate-500">Round Breakdown</h3>
+        <div id="results-review-list" class="divide-y divide-slate-100">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Reset Confirmation Modal -->
+  <div id="modal-reset" class="hidden fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-xl border border-slate-200 space-y-4 fade-in">
+      <h3 class="text-lg font-bold text-slate-900">Reset All Memorization Progress?</h3>
+      <p class="text-sm text-slate-600">This will clear your week-by-week mastery scores, streak, and missed-question history so you can start fresh from Week 0.</p>
+      <div class="flex items-center justify-end gap-2.5 pt-2">
+        <button id="btn-cancel-reset" type="button" class="px-4 py-2 rounded-xl border border-slate-200 text-slate-700 hover:bg-slate-50 font-semibold text-sm">Cancel</button>
+        <button id="btn-confirm-reset" type="button" class="px-4 py-2 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-semibold text-sm">Yes, Reset Everything</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const WEEKS_META = [{"week": 0, "title": "Introduction to Psychology & Learning", "subtitle": "Core definitions, psyche, humanistic, developmental & comparative psychology"}, {"week": 1, "title": "Foundations of Learning & Behaviorism", "subtitle": "Experience, brain structure, Little Albert, conscious incompetence & associative learning"}, {"week": 2, "title": "Conditioning & Intelligence Theories", "subtitle": "Pavlov, Watson, shaping, Tolman, Piaget, Gestalt, spatial intelligence & Sternberg"}, {"week": 3, "title": "Memory & Information Processing", "subtitle": "Synapses, encoding, retrieval, sensory register, rehearsal & episodic buffer"}, {"week": 4, "title": "Thinking, Bloom's Taxonomy & Creativity", "subtitle": "Symbolic thinking, prototypes, concepts, Bloom's domains, metacognition & creative stages"}, {"week": 5, "title": "Motivation Theories & Goal Setting", "subtitle": "Intrinsic vs. extrinsic, Hull's drives, Vroom's expectancy, SMART goals, Maslow & SDT"}, {"week": 6, "title": "Emotional Intelligence & Self-Regulation", "subtitle": "Goleman, Bar-On, perceiving emotions, EQ facilitators, self-awareness & emotion management"}, {"week": 7, "title": "Learning Definitions, Orientations & Styles", "subtitle": "Simon, Gagne, psychomotor skills, behaviorist vs. humanistic orientations & role-playing"}, {"week": 8, "title": "Pedagogy, Inquiry & Experiential Learning", "subtitle": "Collaborative learning, pedagogical model, inquiry types, Kolb's cycle & modality principle"}, {"week": 9, "title": "E-Learning & Online Course Design", "subtitle": "Features, types & benefits of e-learning, active learning, visual cues & course structure"}, {"week": 10, "title": "21st Century Teaching, Mindset & Assessment", "subtitle": "Remote learning, facilitator role, growth mindset, explanatory feedback & formative assessment"}, {"week": 11, "title": "Social Cognition & Bandura's Theory", "subtitle": "Hot processing, social schemas, egocentrism, theory of mind, Bandura's agency & cognitive influence"}, {"week": 12, "title": "Sustainability & Education for SDGs", "subtitle": "Economic/environmental/social sustainability, SDGs 6 & 16, HESI, ESD shift & self-awareness competency"}];
+    const QUESTIONS = [{"id": "w0_q1", "week": 0, "num": 1, "q": "What is Psychology?", "options": ["Just a social media trend", "An art of living", "A subject about human body", "A study of cognitive processes & behavior"], "ans": 3, "ref": "Week-0 Assignment"}, {"id": "w0_q2", "week": 0, "num": 2, "q": "A broad field of study that explores a variety of questions about thoughts, feelings and actions is -------?", "options": ["Society", "Globalization", "Psychology", "Social Science"], "ans": 2, "ref": "Week-0 Assignment"}, {"id": "w0_q3", "week": 0, "num": 3, "q": "Learning has been a central topic of research in ___.", "options": ["Chemistry", "Physics", "Mathematics", "Psychology"], "ans": 3, "ref": "Week-0 Assignment"}, {"id": "w0_q4", "week": 0, "num": 4, "q": "The word Psyche means -------------?", "options": ["Body or physique", "Mind or soul", "Spirituality", "Hormones"], "ans": 1, "ref": "Week-0 Assignment"}, {"id": "w0_q5", "week": 0, "num": 5, "q": "The ___ of learning focuses on how people learn.", "options": ["psychology", "english", "chemistry", "none of the given"], "ans": 0, "ref": "Week-0 Assignment"}, {"id": "w0_q6", "week": 0, "num": 6, "q": "“To help people to function effectively and fulfill their own unique potential” is the aim of--------------?", "options": ["Humanistic psychology", "Evolutionary biology", "Computer science", "Microbiology"], "ans": 0, "ref": "Week-0 Assignment"}, {"id": "w0_q7", "week": 0, "num": 7, "q": "Psychology is not an independent science, but dependent on other fields.", "options": ["True", "False"], "ans": 1, "ref": "Week-0 Assignment"}, {"id": "w0_q8", "week": 0, "num": 8, "q": "The study of changes in an individual’s behavior during his/her lifetime is called ----------.", "options": ["Hormonal psychology", "Gender psychology", "Developmental Psychology", "Genetics or Heredity"], "ans": 2, "ref": "Week-0 Assignment"}, {"id": "w0_q9", "week": 0, "num": 9, "q": "The study of differences and similarities in the behavior of animals of different species is called -------------------------.", "options": ["Developmental psychology", "Cultural psychology", "Personality psychology", "Comparative Psychology"], "ans": 3, "ref": "Week-0 Assignment"}, {"id": "w0_q10", "week": 0, "num": 10, "q": "Humans are incapable of learning.", "options": ["True", "False"], "ans": 1, "ref": "Week-0 Assignment"}, {"id": "w1_q1", "week": 1, "num": 1, "q": "Learning is often seen as the contiguous causal effect of ____ on behavior.", "options": ["blood", "bone density", "trauma", "experience"], "ans": 3, "ref": "Week-1, Slide 03"}, {"id": "w1_q2", "week": 1, "num": 2, "q": "In order to say that learning has occurred, a hidden change in behavior must occur.", "options": ["True", "False"], "ans": 1, "ref": "Week-1, Slide 03"}, {"id": "w1_q3", "week": 1, "num": 3, "q": "Which of the following is not a mental construct?", "options": ["skeleton", "knowledge", "representations", "associations"], "ans": 0, "ref": "Week-1, Slide 04"}, {"id": "w1_q4", "week": 1, "num": 4, "q": "Learning changes the ___ structure of the brain through the process of continuous interactions between the learner and the external environment.", "options": ["physical", "social", "biological", "none of the given"], "ans": 0, "ref": "Week-1, Slide 04"}, {"id": "w1_q5", "week": 1, "num": 5, "q": "___ shapes the learning process.", "options": ["Only thoughts", "Only emotions", "Both thoughts and emotions", "Neither thoughts nor emotions"], "ans": 2, "ref": "Week-1, Slide 07"}, {"id": "w1_q6", "week": 1, "num": 6, "q": "Watson's work included the famous Little Albert experiment in which he conditioned a small child to ___ a white rat.", "options": ["fear", "love", "hate", "play with"], "ans": 0, "ref": "Week-1, Slide 07"}, {"id": "w1_q7", "week": 1, "num": 7, "q": "Behaviorism dominated psychology for much of the early ___ century.", "options": ["20th", "19th", "18th", "17th"], "ans": 0, "ref": "Week-1, Slide 07 (Numbered 6 in PDF)"}, {"id": "w1_q8", "week": 1, "num": 8, "q": "The state of “conscious incompetence” may be valuable ____ of a learning experience.", "options": ["at the end", "in the middle", "2 years after the end", "at the start"], "ans": 3, "ref": "Week-1, Slide 11"}, {"id": "w1_q9", "week": 1, "num": 9, "q": "Which of the following is not an outcome of effective e-learning?", "options": ["wider range of strategies", "more reflective approach", "more positive emotions towards learning", "more disconnected knowledge"], "ans": 3, "ref": "Week-1, Slide 14"}, {"id": "w1_q10", "week": 1, "num": 10, "q": "Instrumental conditioning is an example of ___ learning.", "options": ["sensitization", "habituation", "associative", "meaningful"], "ans": 2, "ref": "Week-1, Slide 24"}, {"id": "w2_q1", "week": 2, "num": 1, "q": "The three major types of learning described by ___ psychology are classical conditioning, operant conditioning and observational learning.", "options": ["cognitive", "behavioral", "emotional", "evolutionary"], "ans": 1, "ref": "Week-2, Slide 02"}, {"id": "w2_q2", "week": 2, "num": 2, "q": "According to the view of Watson, psychology is ___.", "options": ["subjective", "only descriptive", "experimental", "about internal mental processes that cannot be measured and observed"], "ans": 2, "ref": "Week-2, Slide 03"}, {"id": "w2_q3", "week": 2, "num": 3, "q": "___ is given by Ivan Pavlov.", "options": ["Operant conditioning", "Functional conditioning", "Classical conditioning", "Modern conditioning"], "ans": 2, "ref": "Week-2, Slide 05"}, {"id": "w2_q4", "week": 2, "num": 4, "q": "The process by which organisms learn to respond to certain stimuli but not to others is known as ___.", "options": ["stimulus generalization", "stimulus appreciation", "stimulus discrimination", "stimulus differentiation"], "ans": 2, "ref": "Week-2, Slide 11"}, {"id": "w2_q5", "week": 2, "num": 5, "q": "Higher-order conditioning is intrinsically weaker than its first-order counterpart.", "options": ["True", "False"], "ans": 0, "ref": "Week-2, Slide 12"}, {"id": "w2_q6", "week": 2, "num": 6, "q": "____ is the process of gradually changing the quality of a response.", "options": ["Shaping", "Modeling", "Cueing", "Shifting"], "ans": 0, "ref": "Week-2, Slide 23"}, {"id": "w2_q7", "week": 2, "num": 7, "q": "The works of ___ were instrumental in engendering the dramatic shift from behaviorism to cognitive theories.", "options": ["Edward C. Tolman", "Jean Piaget", "German Gestalt", "All of the given"], "ans": 3, "ref": "Week-2, Slide 39"}, {"id": "w2_q8", "week": 2, "num": 8, "q": "___ intelligence is the ability to perceive the visual–spatial world accurately and involves sensitivity to color, line, shape, form, space, and the potential for recognizing and manipulating the patterns of spaces.", "options": ["Interpersonal", "Spatial", "Bodily-kinesthetic", "Linguistic"], "ans": 1, "ref": "Week-2, Slide 48"}, {"id": "w2_q9", "week": 2, "num": 9, "q": "Sternberg proposed his theory in 1985 as an alternative to the idea of the ___.", "options": ["general intelligence factor", "multiple intelligences", "specific intelligence factor", "unconscious intelligence"], "ans": 0, "ref": "Week-2, Slide 51"}, {"id": "w2_q10", "week": 2, "num": 10, "q": "Which of the following is not a kind of product in the structure of intellect model?", "options": ["symbolic", "classes", "systems", "implications"], "ans": 0, "ref": "Week-2, Slide 79"}, {"id": "w3_q1", "week": 3, "num": 1, "q": "The connections between nerves cells are called ___.", "options": ["systems", "syntaxes", "neurons", "synapses"], "ans": 3, "ref": "Week-3, Slide 02"}, {"id": "w3_q2", "week": 3, "num": 2, "q": "In order to create a ___, information must be changed into a usable form, which occurs through a process known as encoding.", "options": ["past memory", "new imagination", "new memory", "past imagination"], "ans": 2, "ref": "Week-3, Slide 03"}, {"id": "w3_q3", "week": 3, "num": 3, "q": "Calling back the stored information in response to some cue for use in a process or activity is called ___.", "options": ["Retrieval", "Recall", "Recollection", "All of the given"], "ans": 3, "ref": "Week-3, Slide 03"}, {"id": "w3_q4", "week": 3, "num": 4, "q": "For many with ___ deficits, reading facial expressions and knowing how to respond are confusing daily challenges.", "options": ["memory", "intelligence", "social cognition", "biological cognition"], "ans": 2, "ref": "Week-3, Slide 08"}, {"id": "w3_q5", "week": 3, "num": 5, "q": "The Information Processing View of Learning assumes that there are limits to how much information can be processed at each stage.", "options": ["True", "False"], "ans": 0, "ref": "Week-3, Slide 09"}, {"id": "w3_q6", "week": 3, "num": 6, "q": "The Information Processing View of Learning assumes that information process is involved in ___", "options": ["forgetting", "remembering", "perceiving", "All of the given"], "ans": 3, "ref": "Week-3, Slide 09"}, {"id": "w3_q7", "week": 3, "num": 7, "q": "The capacity of the sensory register is ___.", "options": ["very small", "very large", "7+/-2 chunks", "unlimited"], "ans": 1, "ref": "Week-3, Slide 14"}, {"id": "w3_q8", "week": 3, "num": 8, "q": "Most children do not begin to engage in the process of rehearsal on their own until about age ___.", "options": ["seven", "two", "thirteen", "one"], "ans": 0, "ref": "Week-3, Slide 16"}, {"id": "w3_q9", "week": 3, "num": 9, "q": "___ provides an interface between the sub-systems of working memory and the part of long term memory specialized for episodic memory.", "options": ["Phonological loop", "Visuo-spatial sketchpad", "Retrieval buffer", "Episodic buffer"], "ans": 3, "ref": "Week-3, Slide 27"}, {"id": "w3_q10", "week": 3, "num": 10, "q": "Memories of specific episodes of one’s life refers to ___.", "options": ["declarative memory", "experimental episodic memory", "autobiographical episodic memory", "procedural memory"], "ans": 2, "ref": "Week-3, Slide 34"}, {"id": "w4_q1", "week": 4, "num": 1, "q": "___ thinking is the ability to create mental representations of objects, places, events, or people in your mind.", "options": ["General", "Creative", "Divergent", "Symbolic"], "ans": 3, "ref": "Week-4, Slide 03"}, {"id": "w4_q2", "week": 4, "num": 2, "q": "We compare new information to our ___ of the person, place, or thing, so we know how to categorize the new information mentally.", "options": ["protofit", "protobite", "prototype", "none of the given"], "ans": 2, "ref": "Week-4, Slide 04"}, {"id": "w4_q3", "week": 4, "num": 3, "q": "Which of the following is not true?", "options": ["Thinking is a higher mental process", "Thinking is a sub-vocal talking", "Thinking is fulfilling a need or problem solving", "Thinking is only done in verbal symbols"], "ans": 3, "ref": "Week-4, Slide 06"}, {"id": "w4_q4", "week": 4, "num": 4, "q": "Mental images are ___.", "options": ["Auditory", "Visual", "Gustatory", "All of the given"], "ans": 3, "ref": "Week-4, Slide 07"}, {"id": "w4_q5", "week": 4, "num": 5, "q": "___ organize complex phenomena into simpler, easily understandable, and usable categories and help to solve our problems.", "options": ["Concepts", "Propositions", "Constructs", "Components"], "ans": 0, "ref": "Week-4, Slide 08"}, {"id": "w4_q6", "week": 4, "num": 6, "q": "The lowermost level of Bloom’s taxonomy is ___.", "options": ["remember", "apply", "understand", "analyze"], "ans": 0, "ref": "Week-4, Slide 13"}, {"id": "w4_q7", "week": 4, "num": 7, "q": "The psychomotor domain of the Bloom’s taxonomy is concerned with ___.", "options": ["Biological makeup", "Thoughts and beliefs", "Feelings and emotions", "Skilled behavior"], "ans": 3, "ref": "Week-4, Slide 17"}, {"id": "w4_q8", "week": 4, "num": 8, "q": "Which of the following is an example of meta-cognition skills?", "options": ["Ignoring your limits", "Self-monitoring", "Skimming all important information", "All of the given"], "ans": 1, "ref": "Week-4, Slide 24"}, {"id": "w4_q9", "week": 4, "num": 9, "q": "___ critical thinking skill helps you analyze and process information to come to an unbiased conclusion.", "options": ["Open-mindedness", "Self-regulation", "Self-control", "Observation"], "ans": 0, "ref": "Week-4, Slide 32"}, {"id": "w4_q10", "week": 4, "num": 10, "q": "The inspiration phase of the creative thinking process refers to the ___ stage.", "options": ["Incubation", "Insight", "Evaluation", "Preparation"], "ans": 3, "ref": "Week-4, Slide 51"}, {"id": "w5_q1", "week": 5, "num": 1, "q": "Which of the following is true about motivation?", "options": ["It is a physical impulse", "It is an external process", "It has a willingness to activate but not channel the attitudes of learners", "None of the given"], "ans": 3, "ref": "Week-5, Slide 02"}, {"id": "w5_q2", "week": 5, "num": 2, "q": "The term “motivation” comes from a ___ word.", "options": ["Greek", "Latin", "Hindi", "Bengali"], "ans": 1, "ref": "Week-5, Slide 04"}, {"id": "w5_q3", "week": 5, "num": 3, "q": "It is called extrinsic motivation if causal factor is ___.", "options": ["curiosity", "social pressure", "self-satisfaction", "needs"], "ans": 1, "ref": "Week-5, Slide 05"}, {"id": "w5_q4", "week": 5, "num": 4, "q": "___ motivation is considered to be more crucial for students as it is associated with deep learning, better performance and self-efficacy.", "options": ["Intrinsic", "Extrinsic", "Introjected regulation", "None of the given"], "ans": 0, "ref": "Week-5, Slide 07"}, {"id": "w5_q5", "week": 5, "num": 5, "q": "___ proposed that there are three primary drives that drive human behavior.", "options": ["Hull", "Watson", "Piaget", "Gestalt"], "ans": 0, "ref": "Week-5, Slide 12"}, {"id": "w5_q6", "week": 5, "num": 6, "q": "Expectancy Theory of Motivation was developed by ___.", "options": ["Vroom", "Hull", "Murray", "None of the given"], "ans": 0, "ref": "Week-5, Slide 21"}, {"id": "w5_q7", "week": 5, "num": 7, "q": "An example of ___ is thinking, “If I work hard I can achieve the targets my boss has set for me”.", "options": ["purposeful", "valence", "instrumentality", "expectancy"], "ans": 3, "ref": "Week-5, Slide 23"}, {"id": "w5_q8", "week": 5, "num": 8, "q": "In SMART goals, T stands for ___.", "options": ["Temporary", "Time-based", "Tough", "Testing"], "ans": 1, "ref": "Week-5, Slide 27"}, {"id": "w5_q9", "week": 5, "num": 9, "q": "Friendship is a ___ need in Maslow’s hierarchy.", "options": ["Love and belonging", "Esteem", "Physiological", "Safety"], "ans": 0, "ref": "Week-5, Slide 31-32"}, {"id": "w5_q10", "week": 5, "num": 10, "q": "___ theory differentiates between autonomous motivation and controlled motivation.", "options": ["Arousal", "Goal-setting", "Need hierarchy", "Self-determination"], "ans": 3, "ref": "Week-5, Slide 37"}, {"id": "w6_q1", "week": 6, "num": 1, "q": "According to Daniel Goleman, ___ component of emotional intelligence focuses on how we handle relationships with others.", "options": ["self-awareness", "motivation", "empathy", "emotional regulation"], "ans": 2, "ref": "Week-6, Slide 02"}, {"id": "w6_q2", "week": 6, "num": 2, "q": "Emotional intelligence can be considered a type of ___ intelligence.", "options": ["academic", "genetic", "social", "external"], "ans": 2, "ref": "Week-6, Slide 03"}, {"id": "w6_q3", "week": 6, "num": 3, "q": "Noticing a difficult emotion and slowing down or resisting any impulsive action that may follow highlights ___ component of emotional intelligence.", "options": ["Self-regulation", "Motivation", "Emotional literacy", "Empathy"], "ans": 0, "ref": "Week-6, Slide 04"}, {"id": "w6_q4", "week": 6, "num": 4, "q": "The following are signs of emotional intelligence, except ___.", "options": ["strong sense of curiosity", "holding onto mistakes", "ability to manage emotions in difficult situations", "self-confidence"], "ans": 1, "ref": "Week-6, Slide 07"}, {"id": "w6_q5", "week": 6, "num": 5, "q": "Perceiving emotions means ___.", "options": ["Ignoring signals", "Understanding only what somebody is saying to you", "Understanding only somebody’s facial expression", "Understanding both verbal and nonverbal signals"], "ans": 3, "ref": "Week-6, Slide 11"}, {"id": "w6_q6", "week": 6, "num": 6, "q": "___ suggests that 10 distinct components provide the scaffolding of emotionally and socially intelligent behaviors:", "options": ["Bar-On", "Goleman", "Salovey", "Mayer"], "ans": 0, "ref": "Week-6, Slide 15"}, {"id": "w6_q7", "week": 6, "num": 7, "q": "Which of the following is a facilitator of EQ?", "options": ["optimism", "happiness", "independence", "all of the given"], "ans": 3, "ref": "Week-6, Slide 18 (Note: PDF key prints 'Ans. a= all of the given')"}, {"id": "w6_q8", "week": 6, "num": 8, "q": "___ is a strategy for improving one’s self-awareness.", "options": ["rejecting feedback", "using critical self-talk daily", "developing a fixed mindset", "pursuing one’s passion"], "ans": 3, "ref": "Week-6, Slide 20"}, {"id": "w6_q9", "week": 6, "num": 9, "q": "Having students create autobiographies is an example of creating opportunities for ___.", "options": ["emotional labor", "emotional contagion", "metacognition", "none of the given"], "ans": 2, "ref": "Week-6, Slide 23"}, {"id": "w6_q10", "week": 6, "num": 10, "q": "Which of the following is not true about management of emotions?", "options": ["It is essentially a private act", "It is directly regulated by others", "It is influenced by cultural norms", "It is influenced by what society defines as appropriate to feel and express"], "ans": 1, "ref": "Week-6, Slide 30"}, {"id": "w7_q1", "week": 7, "num": 1, "q": "Simon defined learning as changes in a system that result in ___ over time on tasks similar to those done previously.", "options": ["boredom", "decreased anxiety", "improved performance", "reduced performance"], "ans": 2, "ref": "Week-7 Assignment"}, {"id": "w7_q2", "week": 7, "num": 2, "q": "Robert Gagne defined learning as ___.", "options": ["a change in human disposition or capacity", "a change that persists over a period of time", "a change not simply ascribable to processes of growth", "all of the given"], "ans": 3, "ref": "Week-7 Assignment"}, {"id": "w7_q3", "week": 7, "num": 3, "q": "Psychomotor skills are ___ skills.", "options": ["cognitive", "spiritual", "mental", "physical"], "ans": 3, "ref": "Week-7 Assignment"}, {"id": "w7_q4", "week": 7, "num": 4, "q": "Returning to experience refers to ___.", "options": ["attending to feelings", "re-examining experience in the light of one’s intent and existing knowledge", "using helpful feelings and removing obstructive ones", "recalling or detailing salient events"], "ans": 3, "ref": "Week-7 Assignment"}, {"id": "w7_q5", "week": 7, "num": 5, "q": "Which of the following assumptions does not come under the behaviorist orientation to learning?", "options": ["Differences between individuals are important as they will affect learning", "Observable behavior rather than internal thought processes are the focus of study.", "Environment shapes one’s behavior", "The principle of contiguity is central"], "ans": 0, "ref": "Week-7 Assignment"}, {"id": "w7_q6", "week": 7, "num": 6, "q": "Reinforcement can come through sharing of results rather than a reward.", "options": ["True", "False"], "ans": 0, "ref": "Week-7 Assignment"}, {"id": "w7_q7", "week": 7, "num": 7, "q": "___ has contributed to the humanistic orientations to learning.", "options": ["linguistic", "kinesthetic", "visual", "Carl Rogers"], "ans": 3, "ref": "Week-7 Assignment"}, {"id": "w7_q8", "week": 7, "num": 8, "q": "In the process of learning, which of the following is not a component of output?", "options": ["certification", "attitude change", "knowledge enhancement", "training plan"], "ans": 3, "ref": "Week-7 Assignment"}, {"id": "w7_q9", "week": 7, "num": 9, "q": "Ambience, space and decorum do not affect learning.", "options": ["True", "False"], "ans": 1, "ref": "Week-7 Assignment"}, {"id": "w7_q10", "week": 7, "num": 10, "q": "Role-playing can motivate ___ type of learners effectively.", "options": ["solitary", "social", "reading/writing", "logical/analytical"], "ans": 1, "ref": "Week-7 Assignment"}, {"id": "w8_q1", "week": 8, "num": 1, "q": "The word ‘pedagogy’ has been derived from the ___ word “pedagogue”.", "options": ["Latin", "Sanskrit", "Greek", "English"], "ans": 2, "ref": "Week-8, Slide 03"}, {"id": "w8_q2", "week": 8, "num": 2, "q": "Which of the following statements is not true about pedagogy?", "options": ["It is a method or way of teaching", "It is derived from the Greek word “pedagogue”", "It helps a teacher understand how learning should be facilitated.", "It harms the quality of teaching and learning."], "ans": 3, "ref": "Week-8, Slide 03-05"}, {"id": "w8_q3", "week": 8, "num": 3, "q": "Pedagogy can enhance the student-teacher relationship.", "options": ["True", "False"], "ans": 0, "ref": "Week-8, Slide 03"}, {"id": "w8_q4", "week": 8, "num": 4, "q": "___ learning is based on the model that knowledge can be created within a population where members actively interact by sharing experiences and take on asymmetry roles.", "options": ["integrative", "inquiry-based", "collaborative", "constructivist"], "ans": 2, "ref": "Week-8, Slide 06"}, {"id": "w8_q5", "week": 8, "num": 5, "q": "The Pedagogical Model provides an overview of the learning cycle and breaks it down into ___ domains or phases of instruction.", "options": ["five", "three", "two", "seven"], "ans": 0, "ref": "Week-8, Slide 09"}, {"id": "w8_q6", "week": 8, "num": 6, "q": "Which of the following is not a type of inquiry-based approach?", "options": ["confrontation", "structure", "guided", "open"], "ans": 0, "ref": "Week-8, Slide 10"}, {"id": "w8_q7", "week": 8, "num": 7, "q": "In experiential learning, students are engaged ___.", "options": ["intellectually", "soulfully", "socially", "all of the given"], "ans": 3, "ref": "Week-8, Slide 14"}, {"id": "w8_q8", "week": 8, "num": 8, "q": "___ stage of experiential theory by Kolb focuses on planning.", "options": ["concrete experience", "abstract conceptualization", "reflective observation", "active experimentation"], "ans": 3, "ref": "Week-8, Slide 21"}, {"id": "w8_q9", "week": 8, "num": 9, "q": "People with a ___ learning style can often act on “gut feeling” and will rely on others' analysis rather than their own.", "options": ["accommodating", "converging", "diverging", "assimilating"], "ans": 0, "ref": "Week-8, Slide 25"}, {"id": "w8_q10", "week": 8, "num": 10, "q": "According to the ___ principle, students learn better from animation and narration than from animation and on-screen text.", "options": ["multimedia", "modality", "coherence", "temporal contiguity"], "ans": 1, "ref": "Week-8, Slide 45"}, {"id": "w9_q1", "week": 9, "num": 1, "q": "E-learning is any form of ___.", "options": ["teaching", "training", "tutoring", "all of the given"], "ans": 3, "ref": "Week-9, Slide 02"}, {"id": "w9_q2", "week": 9, "num": 2, "q": "___ is a feature of e-learning.", "options": ["difficulty in access", "user friendliness", "social injustice", "closed learning"], "ans": 1, "ref": "Week-9, Slide 02"}, {"id": "w9_q3", "week": 9, "num": 3, "q": "E-learning is a synonym of audio-visual learning, multimedia learning, and distance learning.", "options": ["True", "False"], "ans": 1, "ref": "Week-9, Slide 05"}, {"id": "w9_q4", "week": 9, "num": 4, "q": "Which of the following is not a type of e-learning?", "options": ["text-driven", "interactive", "simulation", "physical"], "ans": 3, "ref": "Week-9, Slide 05-06"}, {"id": "w9_q5", "week": 9, "num": 5, "q": "Which of the following is not a benefit of e-learning?", "options": ["It can accommodate the need of a housewife", "People can revise the learning content as many times as they want", "It facilitates in developing and communicating new training policies", "None of the given"], "ans": 3, "ref": "Week-9, Slide 06"}, {"id": "w9_q6", "week": 9, "num": 6, "q": "Good learners know ___.", "options": ["What they are learning", "Why they are learning", "How they are learning", "All of the given"], "ans": 3, "ref": "Week-9, Slide 12"}, {"id": "w9_q7", "week": 9, "num": 7, "q": "Learners may multitask when engaging in an online course, which could be resulting in ___.", "options": ["hyperfocus", "better retrieval", "shorter attention spans", "None of the given"], "ans": 2, "ref": "Week-9, Slide 19"}, {"id": "w9_q8", "week": 9, "num": 8, "q": "___ learning is the crucial determinant of successful e-learning.", "options": ["passive", "retrospective", "social", "active"], "ans": 3, "ref": "Week-9, Slide 13"}, {"id": "w9_q9", "week": 9, "num": 9, "q": "The brain can process 36,000 visual cues per___.", "options": ["hour", "second", "day", "year"], "ans": 0, "ref": "Week-9, Slide 14"}, {"id": "w9_q10", "week": 9, "num": 10, "q": "For effective learning, online courses should ___.", "options": ["use headings", "use complex language", "present long pieces of text", "use random images"], "ans": 0, "ref": "Week-9, Slide 20"}, {"id": "w10_q1", "week": 10, "num": 1, "q": "During Covid-19 the world was busy in preparing 1.5 billion learners for the new normal, i.e., ___ learning.", "options": ["ineffective", "physical", "remote", "experiential"], "ans": 2, "ref": "Week-10, Slide 02"}, {"id": "w10_q2", "week": 10, "num": 2, "q": "To develop learner readiness for online learning, training sessions on ___ are helpful.", "options": ["netiquettes", "time management", "developing study skills", "all of the given"], "ans": 3, "ref": "Week-10, Slide 04"}, {"id": "w10_q3", "week": 10, "num": 3, "q": "The typical picture of a teacher being a dispenser of knowledge to the students has been replaced by that of a ___.", "options": ["obstructor", "parent", "friend", "facilitator"], "ans": 3, "ref": "Week-10, Slide 06"}, {"id": "w10_q4", "week": 10, "num": 4, "q": "In 2018, Global Education and Skills Forum noted that the ‘future’ teacher would need the 5 skills to thrive in the 21st century. Which of the following is not one of them?", "options": ["Strong social skills", "Data analysis", "External focus", "Strictness"], "ans": 3, "ref": "Week-10, Slide 06"}, {"id": "w10_q5", "week": 10, "num": 5, "q": "Participatory education demands ___ so as to build a needs-based approach to teaching.", "options": ["creativity", "stubbornness", "reward", "none of the given"], "ans": 0, "ref": "Week-10, Slide 08"}, {"id": "w10_q6", "week": 10, "num": 6, "q": "Students who consider intelligence as a malleable entity tend to focus on their obstacles instead of goals.", "options": ["True", "False"], "ans": 1, "ref": "Week-10, Slide 10"}, {"id": "w10_q7", "week": 10, "num": 7, "q": "Which of the following is not a principle to enhance student learning.", "options": ["What students already know affects their learning", "Learning is context-based", "Students’ cognitive development and learning is limited by the general stages of development.", "The acquisition of knowledge and skills in the long term depends largely on practice."], "ans": 2, "ref": "Week-10, Slide 10-11"}, {"id": "w10_q8", "week": 10, "num": 8, "q": "___ feedback to students is important for learning.", "options": ["Unclear", "Late", "Harsh", "Explanatory"], "ans": 3, "ref": "Week-10, Slide 14"}, {"id": "w10_q9", "week": 10, "num": 9, "q": "Mastery goals are those that are geared towards the acquisition or improvement of___.", "options": ["Skills", "Number of students in a classroom", "Teacher feedback", "None of the given"], "ans": 0, "ref": "Week-10, Slide 15"}, {"id": "w10_q10", "week": 10, "num": 10, "q": "The vast majority of formative assessment is___.", "options": ["Formal", "Incorrect", "Written", "informal"], "ans": 3, "ref": "Week-10, Slide 44"}, {"id": "w11_q1", "week": 11, "num": 1, "q": "Social cognition has a protracted development through infancy to ___.", "options": ["teenage", "old-age", "adulthood", "death"], "ans": 2, "ref": "Week-11, Slide 02"}, {"id": "w11_q2", "week": 11, "num": 2, "q": "Which of the following abilities comes under social cognition?", "options": ["Face processing", "Joint attention", "Theory of mind", "All of the given"], "ans": 3, "ref": "Week-11, Slide 03"}, {"id": "w11_q3", "week": 11, "num": 3, "q": "Under social cognition, abilities involved in affective processing are often called ___.", "options": ["hot", "cold", "white", "black"], "ans": 0, "ref": "Week-11, Slide 03"}, {"id": "w11_q4", "week": 11, "num": 4, "q": "Social schemas refer to people's mental representations of social ___.", "options": ["values", "memories", "skills", "patterns"], "ans": 3, "ref": "Week-11, Slide 05"}, {"id": "w11_q5", "week": 11, "num": 5, "q": "During the earliest stages of development, children are very ___-centric. They see the world from their own perspective and struggle to think about how other people may view the world.", "options": ["selfish", "ego", "conscious", "emotional"], "ans": 1, "ref": "Week-11, Slide 06"}, {"id": "w11_q6", "week": 11, "num": 6, "q": "A theory of mind refers to a person's ability to understand and think about the ___ of other people.", "options": ["behaviors", "family backgrounds", "mental states", "language"], "ans": 2, "ref": "Week-11, Slide 08"}, {"id": "w11_q7", "week": 11, "num": 7, "q": "The same social behavior in one cultural setting might have a very different meaning and interpretation if it were to occur or be observed in another culture.", "options": ["True", "False"], "ans": 0, "ref": "Week-11, Slide 09"}, {"id": "w11_q8", "week": 11, "num": 8, "q": "Social cognitive theory by Bandura focuses on concepts of ___.", "options": ["self-efficacy", "modeling", "observational learning", "all of the given"], "ans": 3, "ref": "Week-11, Slide 11"}, {"id": "w11_q9", "week": 11, "num": 9, "q": "The central tenet of Bandura’s social-cognitive theory is that people seek to develop a sense of ___ over the important events in their lives.", "options": ["agency", "dependency", "attachment", "emotion"], "ans": 0, "ref": "Week-11, Slide 13"}, {"id": "w11_q10", "week": 11, "num": 10, "q": "___ hypothesis suggests that social processes influence how information is selected, organized, integrated, and retrieved.", "options": ["activation", "cognitive influence", "interaction", "social cue strength"], "ans": 1, "ref": "Week-11, Slide 30"}, {"id": "w12_q1", "week": 12, "num": 1, "q": "Sustainability in economic sustainability is ___.", "options": ["multidimensional", "bidimensional", "unidimensional", "none of the given"], "ans": 2, "ref": "Week-12, Slide 02"}, {"id": "w12_q2", "week": 12, "num": 2, "q": "The term \"sustainable development\" was first mentioned in a book related to the 1972 UN Stockholm conference on ___.", "options": ["water", "poverty", "economic crisis", "human environment"], "ans": 3, "ref": "Week-12, Slide 03"}, {"id": "w12_q3", "week": 12, "num": 3, "q": "Environmental sustainability focuses on impacts of processes, products and services on ___.", "options": ["water", "biodiversity", "human health", "all of the given"], "ans": 3, "ref": "Week-12, Slide 05"}, {"id": "w12_q4", "week": 12, "num": 4, "q": "Which of the following does not come under social sustainability?", "options": ["Labour practices", "Revenue generation", "Human rights", "Business ethics"], "ans": 1, "ref": "Week-12, Slide 06-07"}, {"id": "w12_q5", "week": 12, "num": 5, "q": "SDG __ focuses on clean water and sanitation.", "options": ["1", "17", "6", "3"], "ans": 2, "ref": "Week-12, Slide 09"}, {"id": "w12_q6", "week": 12, "num": 6, "q": "SDG 16 focuses on ___.", "options": ["No poverty", "No hunger", "Good health", "Peace and justice"], "ans": 3, "ref": "Week-12, Slide 09"}, {"id": "w12_q7", "week": 12, "num": 7, "q": "On 20 October 2020, the Higher Education Sustainability Initiative (HESI) raised the flag of higher education as a driver for sustainable development and inclusive societies on the first day of the ___ 2020.", "options": ["National Sustainability Meeting", "National Teachers Meeting", "Global Childrens’ Meeting", "Global Education Meeting"], "ans": 3, "ref": "Week-12, Slide 14"}, {"id": "w12_q8", "week": 12, "num": 8, "q": "Education is related to all SDGs.", "options": ["True", "False"], "ans": 0, "ref": "Week-12, Slide 24"}, {"id": "w12_q9", "week": 12, "num": 9, "q": "Successful implementation of ESD requires a shift in focus from ___.", "options": ["teaching to learning", "learning to teaching", "reading to speaking", "knowing to ignoring"], "ans": 0, "ref": "Week-12, Slide 29"}, {"id": "w12_q10", "week": 12, "num": 10, "q": "___ competency is the ability to reflect on one’s own role in the local community and (global) society.", "options": ["collaboration", "self-awareness", "strategic", "normative"], "ans": 1, "ref": "Week-12, Slide 62"}];
+
+    // Persistent State
+    const STORAGE_KEY = 'nptel_psy_learning_mastery_v1';
+    let appState = {
+      masteredIds: {},     // { [qId]: true } when last attempt was correct
+      attemptsById: {},    // { [qId]: { correct: number, wrong: number } }
+      missedIds: {},       // { [qId]: true } if missed and not yet redeemed, or ever missed
+      flaggedIds: {},      // { [qId]: true } user-starred
+      weekBestScore: {},   // { [weekNum]: number (out of 10) }
+      streak: 0,
+      shuffleOptions: false,
+      activeRecall: false,
+      selectedRandomWeeks: [0,1,2,3,4,5,6,7,8,9,10,11,12]
+    };
+
+    function loadState() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          appState = Object.assign({}, appState, parsed);
+        }
+      } catch (e) {
+        // Ignore storage errors in sandboxed frames
+      }
+    }
+
+    function saveState() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(appState));
+      } catch (e) {
+        // Ignore storage errors
+      }
+    }
+
+    // Active Quiz Session State
+    let quizSession = {
+      mode: 'week',        // 'week' | 'random' | 'missed'
+      weekNum: 0,
+      title: '',
+      questions: [],       // Array of question objects for this session
+      optionOrders: [],    // Array of arrays mapping display index -> original option index
+      currentIndex: 0,
+      answers: {},         // { [sessionIdx]: chosenOriginalOptionIdx }
+      revealedRecall: {}   // { [sessionIdx]: true }
+    };
+
+    let bankHideAnswers = false;
+
+    // Utility: Fisher-Yates shuffle
+    function shuffleArray(arr) {
+      const copy = arr.slice();
+      for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        const temp = copy[i];
+        copy[i] = copy[j];
+        copy[j] = temp;
+      }
+      return copy;
+    }
+
+    // View Switching
+    const VIEWS = ['view-roadmap', 'view-random-Menu', 'view-missed', 'view-bank', 'view-quiz', 'view-results'];
+    function showView(viewId) {
+      VIEWS.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+          if (id === viewId) el.classList.remove('hidden');
+          else el.classList.add('hidden');
+        }
+      });
+      updateNavTabs(viewId);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function updateNavTabs(activeViewId) {
+      const tabMap = {
+        'tab-roadmap': activeViewId === 'view-roadmap' || (activeViewId === 'view-quiz' && quizSession.mode === 'week'),
+        'tab-random': activeViewId === 'view-random-Menu' || (activeViewId === 'view-quiz' && quizSession.mode === 'random'),
+        'tab-missed': activeViewId === 'view-missed' || (activeViewId === 'view-quiz' && quizSession.mode === 'missed'),
+        'tab-bank': activeViewId === 'view-bank'
+      };
+      Object.keys(tabMap).forEach(tabId => {
+        const btn = document.getElementById(tabId);
+        if (!btn) return;
+        if (tabMap[tabId]) {
+          btn.className = 'px-3 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition-all bg-white text-indigo-700 shadow-sm flex items-center gap-1.5';
+        } else {
+          btn.className = 'px-3 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition-all text-slate-600 hover:text-slate-900 flex items-center gap-1.5';
+        }
+      });
+    }
+
+    // Update Global Header Metrics
+    function updateGlobalHeader() {
+      const masteredCount = Object.keys(appState.masteredIds).filter(k => appState.masteredIds[k]).length;
+      const pct = Math.round((masteredCount / QUESTIONS.length) * 100);
+      document.getElementById('global-mastery-text').textContent = `${masteredCount} / ${QUESTIONS.length} Mastered (${pct}%)`;
+      document.getElementById('global-mastery-bar').style.width = `${pct}%`;
+
+      let weeksDone = 0;
+      for (let w = 0; w <= 12; w++) {
+        if ((appState.weekBestScore[w] || 0) === 10) weeksDone++;
+      }
+      document.getElementById('weeks-done-count').textContent = `${weeksDone}/13`;
+      document.getElementById('current-streak').textContent = String(appState.streak || 0);
+
+      const weakSet = getWeakOrFlaggedQuestions();
+      document.getElementById('badge-missed').textContent = String(weakSet.length);
+
+      document.getElementById('toggle-shuffle-options').checked = !!appState.shuffleOptions;
+      document.getElementById('toggle-active-recall').checked = !!appState.activeRecall;
+
+      // Update Journey Banner
+      let nextUnfinishedWeek = -1;
+      for (let w = 0; w <= 12; w++) {
+        if ((appState.weekBestScore[w] || 0) < 10) {
+          nextUnfinishedWeek = w;
+          break;
+        }
+      }
+      const headlineEl = document.getElementById('journey-headline');
+      const subtextEl = document.getElementById('journey-subtext');
+      const continueBtn = document.getElementById('btn-continue-journey');
+
+      if (nextUnfinishedWeek === -1) {
+        headlineEl.textContent = "All 13 Weeks Mastered (130/130)! Ready for Random Exam Mode!";
+        subtextEl.textContent = "You've scored 10/10 on every single week from Week 0 to Week 12. Put your memory to the ultimate test in full Random Mode.";
+        continueBtn.textContent = "Start Full 130-Q Random Quiz →";
+        continueBtn.onclick = () => startRandomQuiz(130, false);
+      } else {
+        const meta = WEEKS_META[nextUnfinishedWeek];
+        headlineEl.textContent = nextUnfinishedWeek === 0 && masteredCount === 0
+          ? "Start with Week 0 and work sequentially through Week 12"
+          : `Up Next in Your Sequence: Week ${nextUnfinishedWeek} (${meta.title})`;
+        subtextEl.textContent = `You've fully mastered ${weeksDone} of 13 weeks (${masteredCount}/130 questions). Complete each week in order, then switch to Random Shuffle Mode.`;
+        continueBtn.textContent = `Start Week ${nextUnfinishedWeek} Quiz →`;
+        continueBtn.onclick = () => startWeekQuiz(nextUnfinishedWeek);
+      }
+    }
+
+    function getWeakOrFlaggedQuestions() {
+      return QUESTIONS.filter(q => appState.missedIds[q.id] || appState.flaggedIds[q.id]);
+    }
+
+    // Render Week-Wise Grid
+    function renderWeeksGrid() {
+      const container = document.getElementById('weeks-grid');
+      container.innerHTML = '';
+
+      WEEKS_META.forEach(meta => {
+        const w = meta.week;
+        const wQuestions = QUESTIONS.filter(q => q.week === w);
+        const masteredInWeek = wQuestions.filter(q => appState.masteredIds[q.id]).length;
+        const bestScore = appState.weekBestScore[w] !== undefined ? appState.weekBestScore[w] : null;
+        const isPerfect = bestScore === 10 || masteredInWeek === 10;
+
+        const card = document.createElement('div');
+        card.className = `group rounded-2xl border p-4 transition-all flex flex-col justify-between gap-3 bg-white hover:shadow-md cursor-pointer ${
+          isPerfect ? 'border-emerald-300 bg-emerald-50/20' : 'border-slate-200 hover:border-indigo-300'
+        }`;
+        card.addEventListener('click', () => startWeekQuiz(w));
+
+        const statusBadge = isPerfect
+          ? `<span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800 border border-emerald-200">✓ 10/10 Mastered</span>`
+          : bestScore !== null
+          ? `<span class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-amber-100 text-amber-800">Best: ${bestScore}/10</span>`
+          : `<span class="px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-100 text-slate-600">${masteredInWeek}/10 Mastered</span>`;
+
+        card.innerHTML = `
+          <div class="space-y-2">
+            <div class="flex items-center justify-between gap-2">
+              <span class="text-xs font-extrabold uppercase tracking-wider text-indigo-600">Week ${w < 10 ? '0' + w : w}</span>
+              ${statusBadge}
+            </div>
+            <h4 class="font-bold text-slate-900 group-hover:text-indigo-700 transition-colors text-base leading-snug">${meta.title}</h4>
+            <p class="text-xs text-slate-500 line-clamp-2 leading-relaxed">${meta.subtitle}</p>
+          </div>
+          <div class="pt-2 border-t border-slate-100 flex items-center justify-between text-xs">
+            <div class="w-28 h-1.5 bg-slate-100 rounded-full overflow-hidden">
+              <div class="h-full ${isPerfect ? 'bg-emerald-500' : 'bg-indigo-600'}" style="width: ${masteredInWeek * 10}%"></div>
+            </div>
+            <span class="font-semibold text-indigo-600 group-hover:translate-x-0.5 transition-transform">Practice 10 Qs &rarr;</span>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    // Render Random Mode Week Filter Pills
+    function renderRandomMenu() {
+      const container = document.getElementById('random-week-pills');
+      container.innerHTML = '';
+
+      WEEKS_META.forEach(meta => {
+        const w = meta.week;
+        const isSelected = appState.selectedRandomWeeks.includes(w);
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = `px-3 py-1.5 rounded-xl text-xs font-semibold border transition-all ${
+          isSelected
+            ? 'bg-indigo-600 text-white border-indigo-600 shadow-xs'
+            : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'
+        }`;
+        btn.textContent = `Week ${w}`;
+        btn.addEventListener('click', () => {
+          if (appState.selectedRandomWeeks.includes(w)) {
+            if (appState.selectedRandomWeeks.length > 1) {
+              appState.selectedRandomWeeks = appState.selectedRandomWeeks.filter(x => x !== w);
+            }
+          } else {
+            appState.selectedRandomWeeks.push(w);
+            appState.selectedRandomWeeks.sort((a,b) => a - b);
+          }
+          saveState();
+          renderRandomMenu();
+        });
+        container.appendChild(btn);
+      });
+
+      const poolCount = QUESTIONS.filter(q => appState.selectedRandomWeeks.includes(q.week)).length;
+      const unmasteredPoolCount = QUESTIONS.filter(q => appState.selectedRandomWeeks.includes(q.week) && !appState.masteredIds[q.id]).length;
+
+      document.getElementById('btn-start-random-all').textContent = `Start Full Random (${poolCount} Qs)`;
+      const unmasteredBtn = document.getElementById('btn-start-random-unmastered');
+      unmasteredBtn.textContent = unmasteredPoolCount > 0
+        ? `Drill Unmastered (${unmasteredPoolCount} Qs)`
+        : `All ${poolCount} Mastered! (Drill All)`;
+    }
+
+    // Render Weak / Missed / Flagged View
+    function renderMissedView() {
+      const list = getWeakOrFlaggedQuestions();
+      const container = document.getElementById('missed-list-container');
+      const quizBtn = document.getElementById('btn-quiz-missed');
+
+      if (list.length === 0) {
+        quizBtn.disabled = true;
+        quizBtn.className = 'px-4 py-2 rounded-xl bg-slate-200 text-slate-500 font-semibold text-sm cursor-not-allowed';
+        container.innerHTML = `
+          <div class="p-8 text-center rounded-xl bg-slate-50 border border-dashed border-slate-200 space-y-2">
+            <div class="text-2xl">🎉</div>
+            <div class="font-bold text-slate-800 text-sm">No Weak or Flagged Questions Right Now!</div>
+            <p class="text-xs text-slate-500 max-w-md mx-auto">Any question you miss during a quiz or bookmark with the ☆ Flag button will automatically appear here for targeted drilling.</p>
+          </div>
+        `;
+        return;
+      }
+
+      quizBtn.disabled = false;
+      quizBtn.className = 'px-4 py-2 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-semibold text-sm shadow-sm transition-colors';
+      quizBtn.textContent = `Quiz All ${list.length} Weak/Flagged Qs`;
+
+      container.innerHTML = '';
+      list.forEach(q => {
+        const isMissed = !!appState.missedIds[q.id];
+        const isFlagged = !!appState.flaggedIds[q.id];
+        const letter = ['A','B','C','D'][q.ans];
+        const row = document.createElement('div');
+        row.className = 'p-4 rounded-xl border border-slate-200 bg-slate-50/50 flex flex-col sm:flex-row sm:items-center justify-between gap-3';
+        row.innerHTML = `
+          <div class="space-y-1">
+            <div class="flex items-center gap-2">
+              <span class="px-2 py-0.5 rounded text-[11px] font-bold bg-indigo-100 text-indigo-800">Week ${q.week} • Q${q.num}</span>
+              ${isMissed ? '<span class="px-2 py-0.5 rounded text-[11px] font-bold bg-rose-100 text-rose-800">Missed</span>' : ''}
+              ${isFlagged ? '<span class="px-2 py-0.5 rounded text-[11px] font-bold bg-amber-100 text-amber-800">★ Flagged</span>' : ''}
+            </div>
+            <div class="text-sm font-semibold text-slate-900">${q.q}</div>
+            <div class="text-xs text-emerald-700 font-medium">Ans: (${letter}) ${q.options[q.ans]} <span class="text-slate-400 ml-2">[${q.ref}]</span></div>
+          </div>
+          <div class="flex items-center gap-2 shrink-0">
+            <button type="button" data-clear-id="${q.id}" class="px-2.5 py-1 rounded-lg border border-slate-200 bg-white hover:bg-slate-100 text-xs font-medium text-slate-600">
+              Remove
+            </button>
+          </div>
+        `;
+        row.querySelector('[data-clear-id]').addEventListener('click', () => {
+          delete appState.missedIds[q.id];
+          delete appState.flaggedIds[q.id];
+          saveState();
+          updateGlobalHeader();
+          renderMissedView();
+        });
+        container.appendChild(row);
+      });
+    }
+
+    // Render Study Sheet / Bank View
+    function initBankFilter() {
+      const sel = document.getElementById('bank-week-filter');
+      sel.innerHTML = '<option value="all">All Weeks (0–12) — 130 Qs</option>';
+      WEEKS_META.forEach(m => {
+        const opt = document.createElement('option');
+        opt.value = String(m.week);
+        opt.textContent = `Week ${m.week}: ${m.title}`;
+        sel.appendChild(opt);
+      });
+    }
+
+    function renderBankView() {
+      const query = (document.getElementById('bank-search').value || '').trim().toLowerCase();
+      const weekVal = document.getElementById('bank-week-filter').value;
+      const container = document.getElementById('bank-questions-list');
+
+      const filtered = QUESTIONS.filter(q => {
+        if (weekVal !== 'all' && String(q.week) !== weekVal) return false;
+        if (!query) return true;
+        const inQ = q.q.toLowerCase().includes(query);
+        const inOpt = q.options.some(o => o.toLowerCase().includes(query));
+        return inQ || inOpt;
+      });
+
+      container.innerHTML = '';
+      if (filtered.length === 0) {
+        container.innerHTML = `<div class="py-8 text-center text-sm text-slate-500">No matching questions found.</div>`;
+        return;
+      }
+
+      filtered.forEach(q => {
+        const letter = ['A','B','C','D'][q.ans];
+        const isMastered = !!appState.masteredIds[q.id];
+        const item = document.createElement('div');
+        item.className = 'py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3';
+
+        const optionsHtml = q.options.map((opt, idx) => {
+          const optLetter = ['A','B','C','D'][idx];
+          const isCorrect = idx === q.ans;
+          if (bankHideAnswers) {
+            return `<span class="inline-block mr-3 text-xs text-slate-500">${optLetter}) ${opt}</span>`;
+          }
+          return `<span class="inline-block mr-3 text-xs ${isCorrect ? 'font-bold text-emerald-700 underline decoration-emerald-400' : 'text-slate-500'}">${optLetter}) ${opt}</span>`;
+        }).join('');
+
+        item.innerHTML = `
+          <div class="space-y-1 flex-1">
+            <div class="flex items-center gap-2">
+              <span class="px-2 py-0.5 rounded text-[11px] font-bold bg-slate-100 text-slate-700">W${q.week} • Q${q.num}</span>
+              ${isMastered ? '<span class="text-[11px] font-semibold text-emerald-600">✓ Mastered</span>' : ''}
+              <span class="text-[11px] text-slate-400">${q.ref}</span>
+            </div>
+            <div class="text-sm font-semibold text-slate-900">${q.q}</div>
+            <div class="pt-0.5">${optionsHtml}</div>
+          </div>
+          <div class="shrink-0">
+            ${
+              bankHideAnswers
+                ? `<button type="button" class="peek-btn px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-indigo-50 text-xs font-semibold text-indigo-700">Show Answer</button>`
+                : `<div class="px-3 py-1.5 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-bold">Ans: ${letter} (${q.options[q.ans]})</div>`
+            }
+          </div>
+        `;
+        const peekBtn = item.querySelector('.peek-btn');
+        if (peekBtn) {
+          peekBtn.addEventListener('click', () => {
+            peekBtn.outerHTML = `<div class="px-3 py-1.5 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-bold">Ans: ${letter} (${q.options[q.ans]})</div>`;
+          });
+        }
+        container.appendChild(item);
+      });
+    }
+
+    // Starting Quizzes
+    function buildOptionOrders(questionsList) {
+      return questionsList.map(q => {
+        const indices = q.options.map((_, i) => i);
+        // Only shuffle if shuffleOptions is enabled and it's not a True/False question
+        if (appState.shuffleOptions && q.options.length > 2) {
+          return shuffleArray(indices);
+        }
+        return indices;
+      });
+    }
+
+    function startWeekQuiz(weekNum, customQuestions) {
+      const meta = WEEKS_META[weekNum];
+      const qList = customQuestions || QUESTIONS.filter(q => q.week === weekNum);
+      quizSession = {
+        mode: 'week',
+        weekNum: weekNum,
+        title: `Week ${weekNum}: ${meta.title}`,
+        questions: qList,
+        optionOrders: buildOptionOrders(qList),
+        currentIndex: 0,
+        answers: {},
+        revealedRecall: {}
+      };
+      showView('view-quiz');
+      renderQuizQuestion();
+    }
+
+    function startRandomQuiz(limitCount, onlyUnmastered) {
+      let pool = QUESTIONS.filter(q => appState.selectedRandomWeeks.includes(q.week));
+      if (onlyUnmastered) {
+        const unmastered = pool.filter(q => !appState.masteredIds[q.id]);
+        if (unmastered.length > 0) pool = unmastered;
+      }
+      const shuffled = shuffleArray(pool).slice(0, limitCount);
+      quizSession = {
+        mode: 'random',
+        weekNum: null,
+        title: onlyUnmastered
+          ? `Random Unmastered Drill (${shuffled.length} Qs)`
+          : `Random Shuffle Mode (${shuffled.length} Qs)`,
+        questions: shuffled,
+        optionOrders: buildOptionOrders(shuffled),
+        currentIndex: 0,
+        answers: {},
+        revealedRecall: {}
+      };
+      showView('view-quiz');
+      renderQuizQuestion();
+    }
+
+    function startMissedQuiz() {
+      const list = shuffleArray(getWeakOrFlaggedQuestions());
+      if (list.length === 0) return;
+      quizSession = {
+        mode: 'missed',
+        weekNum: null,
+        title: `Weak & Flagged Drill (${list.length} Qs)`,
+        questions: list,
+        optionOrders: buildOptionOrders(list),
+        currentIndex: 0,
+        answers: {},
+        revealedRecall: {}
+      };
+      showView('view-quiz');
+      renderQuizQuestion();
+    }
+
+    // Render Current Question in Active Quiz
+    function renderQuizQuestion() {
+      const idx = quizSession.currentIndex;
+      const total = quizSession.questions.length;
+      const q = quizSession.questions[idx];
+      const optOrder = quizSession.optionOrders[idx];
+      const userAns = quizSession.answers[idx];
+      const isAnswered = userAns !== undefined;
+
+      document.getElementById('quiz-mode-title').textContent = quizSession.title;
+      document.getElementById('quiz-mode-subtitle').textContent = `Question ${idx + 1} of ${total}`;
+
+      // Live score
+      const answeredIndices = Object.keys(quizSession.answers);
+      let correctSoFar = 0;
+      answeredIndices.forEach(k => {
+        const qItem = quizSession.questions[Number(k)];
+        if (quizSession.answers[k] === qItem.ans) correctSoFar++;
+      });
+      document.getElementById('quiz-live-score').textContent = `${correctSoFar} / ${answeredIndices.length}`;
+
+      // Flag button state
+      const isFlagged = !!appState.flaggedIds[q.id];
+      document.getElementById('flag-star-icon').textContent = isFlagged ? '★' : '☆';
+      document.getElementById('flag-star-label').textContent = isFlagged ? 'Flagged' : 'Flag';
+
+      // Dots bar
+      const dotsBar = document.getElementById('quiz-dots-bar');
+      dotsBar.innerHTML = '';
+      if (total <= 35) {
+        quizSession.questions.forEach((qItem, i) => {
+          const dot = document.createElement('button');
+          dot.type = 'button';
+          const ansForI = quizSession.answers[i];
+          let colorCls = 'bg-white text-slate-600 border-slate-200 hover:bg-slate-100';
+          if (ansForI !== undefined) {
+            colorCls = ansForI === qItem.ans
+              ? 'bg-emerald-600 text-white border-emerald-600'
+              : 'bg-rose-600 text-white border-rose-600';
+          }
+          if (i === idx) {
+            colorCls += ' ring-2 ring-indigo-500 ring-offset-1';
+          }
+          dot.className = `w-7 h-7 rounded-lg text-xs font-bold border shrink-0 transition-all ${colorCls}`;
+          dot.textContent = String(i + 1);
+          dot.addEventListener('click', () => {
+            quizSession.currentIndex = i;
+            renderQuizQuestion();
+          });
+          dotsBar.appendChild(dot);
+        });
+      } else {
+        // Compact progress bar for large 130-question sessions
+        const pct = Math.round(((idx + 1) / total) * 100);
+        dotsBar.innerHTML = `
+          <div class="w-full bg-slate-200 h-2 rounded-full overflow-hidden">
+            <div class="bg-indigo-600 h-full transition-all duration-200" style="width: ${pct}%"></div>
+          </div>
+        `;
+      }
+
+      // Question Header & Text
+      document.getElementById('q-week-badge').textContent = `Week ${q.week} • Q${q.num}`;
+      const statusPill = document.getElementById('q-status-pill');
+      if (appState.masteredIds[q.id]) {
+        statusPill.className = 'px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200';
+        statusPill.textContent = '✓ Previously Mastered';
+      } else if (appState.missedIds[q.id]) {
+        statusPill.className = 'px-2.5 py-0.5 rounded-full text-xs font-semibold bg-amber-50 text-amber-800 border border-amber-200';
+        statusPill.textContent = 'Needs Review';
+      } else {
+        statusPill.className = 'px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-100 text-slate-600';
+        statusPill.textContent = 'New Question';
+      }
+
+      document.getElementById('q-text').textContent = q.q;
+
+      // Active Recall Shield logic
+      const shield = document.getElementById('active-recall-shield');
+      const optionsContainer = document.getElementById('q-options-container');
+      const shouldHideForRecall = appState.activeRecall && !isAnswered && !quizSession.revealedRecall[idx];
+
+      if (shouldHideForRecall) {
+        shield.classList.remove('hidden');
+        optionsContainer.classList.add('hidden');
+      } else {
+        shield.classList.add('hidden');
+        optionsContainer.classList.remove('hidden');
+      }
+
+      // Render Options
+      optionsContainer.innerHTML = '';
+      optOrder.forEach((origOptIdx, displayIdx) => {
+        const displayLetter = ['A','B','C','D'][displayIdx];
+        const origLetter = ['A','B','C','D'][origOptIdx];
+        const optText = q.options[origOptIdx];
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.disabled = isAnswered;
+
+        let baseCls = 'option-btn w-full text-left p-4 rounded-xl border-2 flex items-center justify-between gap-3 text-sm sm:text-base font-medium ';
+        let badgeCls = 'w-8 h-8 rounded-lg flex items-center justify-center font-bold text-xs shrink-0 ';
+
+        if (!isAnswered) {
+          baseCls += 'border-slate-200 bg-white hover:border-indigo-400 hover:bg-indigo-50/30 text-slate-800';
+          badgeCls += 'bg-slate-100 text-slate-700';
+        } else {
+          const isThisCorrect = origOptIdx === q.ans;
+          const isThisSelected = origOptIdx === userAns;
+          if (isThisCorrect) {
+            baseCls += 'border-emerald-500 bg-emerald-50/80 text-emerald-950 font-semibold';
+            badgeCls += 'bg-emerald-600 text-white';
+          } else if (isThisSelected && !isThisCorrect) {
+            baseCls += 'border-rose-400 bg-rose-50/80 text-rose-950';
+            badgeCls += 'bg-rose-600 text-white';
+          } else {
+            baseCls += 'border-slate-100 bg-slate-50/60 text-slate-400 opacity-75';
+            badgeCls += 'bg-slate-100 text-slate-400';
+          }
+        }
+
+        btn.className = baseCls;
+        const rightIndicator = isAnswered
+          ? (origOptIdx === q.ans
+              ? `<span class="text-xs font-bold text-emerald-700 bg-emerald-100 px-2.5 py-1 rounded-lg shrink-0">✓ Correct (PDF Ans: ${origLetter})</span>`
+              : (origOptIdx === userAns ? `<span class="text-xs font-bold text-rose-700 bg-rose-100 px-2.5 py-1 rounded-lg shrink-0">✗ Your Choice</span>` : ''))
+          : '';
+
+        btn.innerHTML = `
+          <div class="flex items-center gap-3.5">
+            <span class="${badgeCls}">${displayLetter}</span>
+            <span>${optText}</span>
+          </div>
+          ${rightIndicator}
+        `;
+
+        btn.addEventListener('click', () => handleSelectOption(origOptIdx));
+        optionsContainer.appendChild(btn);
+      });
+
+      // Feedback Box
+      const fbBox = document.getElementById('q-feedback-box');
+      const fbHead = document.getElementById('q-feedback-headline');
+      const fbDetail = document.getElementById('q-feedback-detail');
+      if (!isAnswered) {
+        fbBox.classList.add('hidden');
+      } else {
+        fbBox.classList.remove('hidden');
+        const isCorrect = userAns === q.ans;
+        const origLetter = ['A','B','C','D'][q.ans];
+        if (isCorrect) {
+          fbBox.className = 'p-4 rounded-xl border border-emerald-200 bg-emerald-50 text-emerald-950 text-sm space-y-1 fade-in';
+          fbHead.textContent = `✓ Spot on! Answer: ${origLetter} = ${q.options[q.ans]}`;
+        } else {
+          fbBox.className = 'p-4 rounded-xl border border-rose-200 bg-rose-50 text-rose-950 text-sm space-y-1 fade-in';
+          fbHead.textContent = `✗ Incorrect — Correct Answer is ${origLetter} = ${q.options[q.ans]}`;
+        }
+        fbDetail.textContent = `Reference: ${q.ref} • Added to your mastery log.`;
+      }
+
+      // Footer Buttons
+      document.getElementById('btn-prev-q').disabled = idx === 0;
+      const nextBtn = document.getElementById('btn-next-q');
+      nextBtn.textContent = idx === total - 1 ? 'Finish & View Score →' : 'Next Question →';
+    }
+
+    function handleSelectOption(origOptIdx) {
+      const idx = quizSession.currentIndex;
+      if (quizSession.answers[idx] !== undefined) return; // already answered
+
+      const q = quizSession.questions[idx];
+      quizSession.answers[idx] = origOptIdx;
+
+      const isCorrect = origOptIdx === q.ans;
+      if (!appState.attemptsById[q.id]) {
+        appState.attemptsById[q.id] = { correct: 0, wrong: 0 };
+      }
+
+      if (isCorrect) {
+        appState.attemptsById[q.id].correct += 1;
+        appState.masteredIds[q.id] = true;
+        delete appState.missedIds[q.id];
+        appState.streak = (appState.streak || 0) + 1;
+      } else {
+        appState.attemptsById[q.id].wrong += 1;
+        appState.masteredIds[q.id] = false;
+        appState.missedIds[q.id] = true;
+        appState.streak = 0;
+      }
+
+      saveState();
+      updateGlobalHeader();
+      renderQuizQuestion();
+    }
+
+    function goNextQuestion() {
+      if (quizSession.currentIndex < quizSession.questions.length - 1) {
+        quizSession.currentIndex += 1;
+        renderQuizQuestion();
+      } else {
+        finishQuizSession();
+      }
+    }
+
+    function goPrevQuestion() {
+      if (quizSession.currentIndex > 0) {
+        quizSession.currentIndex -= 1;
+        renderQuizQuestion();
+      }
+    }
+
+    function finishQuizSession() {
+      const total = quizSession.questions.length;
+      let correctCount = 0;
+      const missedInThisRound = [];
+
+      quizSession.questions.forEach((q, i) => {
+        if (quizSession.answers[i] === q.ans) {
+          correctCount += 1;
+        } else {
+          missedInThisRound.push(q);
+        }
+      });
+
+      const pct = Math.round((correctCount / total) * 100);
+
+      // If this was a full 10-question week quiz, record best score
+      if (quizSession.mode === 'week' && total === 10 && quizSession.weekNum !== null) {
+        const prevBest = appState.weekBestScore[quizSession.weekNum] || 0;
+        if (correctCount > prevBest) {
+          appState.weekBestScore[quizSession.weekNum] = correctCount;
+        }
+        saveState();
+      }
+
+      updateGlobalHeader();
+      renderWeeksGrid();
+
+      // Populate Results View
+      const iconEl = document.getElementById('results-badge-icon');
+      if (pct === 100) {
+        iconEl.className = 'w-16 h-16 rounded-2xl bg-emerald-100 text-emerald-700 flex items-center justify-center text-3xl font-extrabold mx-auto';
+        iconEl.textContent = '🏆';
+      } else if (pct >= 80) {
+        iconEl.className = 'w-16 h-16 rounded-2xl bg-indigo-100 text-indigo-700 flex items-center justify-center text-3xl font-extrabold mx-auto';
+        iconEl.textContent = '★';
+      } else {
+        iconEl.className = 'w-16 h-16 rounded-2xl bg-amber-100 text-amber-700 flex items-center justify-center text-3xl font-extrabold mx-auto';
+        iconEl.textContent = '↻';
+      }
+
+      document.getElementById('results-subtitle').textContent = quizSession.title;
+      document.getElementById('results-title').textContent = `${correctCount} / ${total} Correct (${pct}%)`;
+      document.getElementById('results-message').textContent = missedInThisRound.length === 0
+        ? "Perfect score! Every single question in this set is locked into memory."
+        : `You missed or skipped ${missedInThisRound.length} question(s). Drill the missed ones right now to reach 100%!`;
+
+      // Retry Missed Button
+      const retryMissedBtn = document.getElementById('btn-results-retry-missed');
+      if (missedInThisRound.length > 0) {
+        retryMissedBtn.classList.remove('hidden');
+        retryMissedBtn.textContent = `Retry ${missedInThisRound.length} Missed Question(s) Now`;
+        retryMissedBtn.onclick = () => {
+          if (quizSession.mode === 'week' && quizSession.weekNum !== null) {
+            startWeekQuiz(quizSession.weekNum, missedInThisRound);
+          } else {
+            quizSession = {
+              mode: quizSession.mode,
+              weekNum: quizSession.weekNum,
+              title: `Retry Missed (${missedInThisRound.length} Qs)`,
+              questions: shuffleArray(missedInThisRound),
+              optionOrders: buildOptionOrders(missedInThisRound),
+              currentIndex: 0,
+              answers: {},
+              revealedRecall: {}
+            };
+            showView('view-quiz');
+            renderQuizQuestion();
+          }
+        };
+      } else {
+        retryMissedBtn.classList.add('hidden');
+      }
+
+      // Replay button
+      document.getElementById('btn-results-replay').onclick = () => {
+        if (quizSession.mode === 'week' && quizSession.weekNum !== null) {
+          startWeekQuiz(quizSession.weekNum);
+        } else {
+          const reshuffled = shuffleArray(quizSession.questions);
+          quizSession.questions = reshuffled;
+          quizSession.optionOrders = buildOptionOrders(reshuffled);
+          quizSession.currentIndex = 0;
+          quizSession.answers = {};
+          quizSession.revealedRecall = {};
+          showView('view-quiz');
+          renderQuizQuestion();
+        }
+      };
+
+      // Next Action button (Next week or Switch to Random)
+      const nextActionBtn = document.getElementById('btn-results-next-action');
+      if (quizSession.mode === 'week' && quizSession.weekNum !== null) {
+        if (quizSession.weekNum < 12) {
+          const nextW = quizSession.weekNum + 1;
+          nextActionBtn.textContent = `Continue to Week ${nextW} →`;
+          nextActionBtn.onclick = () => startWeekQuiz(nextW);
+        } else {
+          nextActionBtn.textContent = `All 12 Weeks Done! Launch Random Mode →`;
+          nextActionBtn.onclick = () => startRandomQuiz(130, false);
+        }
+      } else {
+        nextActionBtn.textContent = `New Random Shuffle →`;
+        nextActionBtn.onclick = () => showView('view-random-Menu');
+      }
+
+      // Breakdown list
+      const reviewList = document.getElementById('results-review-list');
+      reviewList.innerHTML = '';
+      quizSession.questions.forEach((q, i) => {
+        const uAns = quizSession.answers[i];
+        const isCorrect = uAns === q.ans;
+        const correctLetter = ['A','B','C','D'][q.ans];
+        const userLetter = uAns !== undefined ? ['A','B','C','D'][uAns] : 'None';
+
+        const row = document.createElement('div');
+        row.className = 'py-3.5 flex items-start justify-between gap-3';
+        row.innerHTML = `
+          <div class="space-y-1">
+            <div class="flex items-center gap-2">
+              <span class="px-2 py-0.5 rounded text-[11px] font-bold ${isCorrect ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'}">
+                ${isCorrect ? '✓ Correct' : '✗ Missed'}
+              </span>
+              <span class="text-xs font-semibold text-slate-500">Week ${q.week} • Q${q.num}</span>
+            </div>
+            <div class="text-sm font-semibold text-slate-900">${q.q}</div>
+            <div class="text-xs text-emerald-700 font-semibold">Correct Answer: (${correctLetter}) ${q.options[q.ans]}</div>
+            ${!isCorrect ? `<div class="text-xs text-rose-600">Your Answer: ${uAns !== undefined ? `(${userLetter}) ${q.options[uAns]}` : 'Unanswered'}</div>` : ''}
+          </div>
+        `;
+        reviewList.appendChild(row);
+      });
+
+      showView('view-results');
+    }
+
+    // Event Listeners Setup
+    window.addEventListener('DOMContentLoaded', () => {
+      loadState();
+      initBankFilter();
+      updateGlobalHeader();
+      renderWeeksGrid();
+      renderRandomMenu();
+
+      // Main Tabs
+      document.getElementById('tab-roadmap').addEventListener('click', () => {
+        renderWeeksGrid();
+        showView('view-roadmap');
+      });
+      document.getElementById('tab-random').addEventListener('click', () => {
+        renderRandomMenu();
+        showView('view-random-Menu');
+      });
+      document.getElementById('tab-missed').addEventListener('click', () => {
+        renderMissedView();
+        showView('view-missed');
+      });
+      document.getElementById('tab-bank').addEventListener('click', () => {
+        renderBankView();
+        showView('view-bank');
+      });
+
+      // Hero Random Button
+      document.getElementById('btn-jump-random-hero').addEventListener('click', () => {
+        renderRandomMenu();
+        showView('view-random-Menu');
+      });
+
+      // Global Settings Toggles
+      document.getElementById('toggle-shuffle-options').addEventListener('change', (e) => {
+        appState.shuffleOptions = e.target.checked;
+        saveState();
+        if (!document.getElementById('view-quiz').classList.contains('hidden')) {
+          quizSession.optionOrders = buildOptionOrders(quizSession.questions);
+          renderQuizQuestion();
+        }
+      });
+
+      document.getElementById('toggle-active-recall').addEventListener('change', (e) => {
+        appState.activeRecall = e.target.checked;
+        saveState();
+        if (!document.getElementById('view-quiz').classList.contains('hidden')) {
+          renderQuizQuestion();
+        }
+      });
+
+      // Random Menu Controls
+      document.getElementById('btn-select-all-weeks').addEventListener('click', () => {
+        appState.selectedRandomWeeks = [0,1,2,3,4,5,6,7,8,9,10,11,12];
+        saveState();
+        renderRandomMenu();
+      });
+      document.getElementById('btn-clear-all-weeks').addEventListener('click', () => {
+        appState.selectedRandomWeeks = [0];
+        saveState();
+        renderRandomMenu();
+      });
+      document.getElementById('btn-start-random-all').addEventListener('click', () => startRandomQuiz(130, false));
+      document.getElementById('btn-start-random-25').addEventListener('click', () => startRandomQuiz(25, false));
+      document.getElementById('btn-start-random-unmastered').addEventListener('click', () => startRandomQuiz(130, true));
+
+      // Missed View Controls
+      document.getElementById('btn-quiz-missed').addEventListener('click', () => startMissedQuiz());
+
+      // Study Sheet / Bank Controls
+      document.getElementById('bank-search').addEventListener('input', () => renderBankView());
+      document.getElementById('bank-week-filter').addEventListener('change', () => renderBankView());
+      document.getElementById('btn-toggle-bank-answers').addEventListener('click', (e) => {
+        bankHideAnswers = !bankHideAnswers;
+        e.currentTarget.textContent = bankHideAnswers ? 'Show All Answers' : 'Hide Answers (Self-Test)';
+        renderBankView();
+      });
+
+      // Active Quiz Controls
+      document.getElementById('btn-exit-quiz').addEventListener('click', () => {
+        if (quizSession.mode === 'random') {
+          renderRandomMenu();
+          showView('view-random-Menu');
+        } else if (quizSession.mode === 'missed') {
+          renderMissedView();
+          showView('view-missed');
+        } else {
+          renderWeeksGrid();
+          showView('view-roadmap');
+        }
+      });
+
+      document.getElementById('btn-flag-current').addEventListener('click', () => {
+        const q = quizSession.questions[quizSession.currentIndex];
+        if (!q) return;
+        if (appState.flaggedIds[q.id]) {
+          delete appState.flaggedIds[q.id];
+        } else {
+          appState.flaggedIds[q.id] = true;
+        }
+        saveState();
+        updateGlobalHeader();
+        renderQuizQuestion();
+      });
+
+      document.getElementById('btn-reveal-options').addEventListener('click', () => {
+        quizSession.revealedRecall[quizSession.currentIndex] = true;
+        renderQuizQuestion();
+      });
+
+      document.getElementById('btn-prev-q').addEventListener('click', () => goPrevQuestion());
+      document.getElementById('btn-next-q').addEventListener('click', () => goNextQuestion());
+
+      // Reset Modal
+      document.getElementById('btn-open-reset').addEventListener('click', () => {
+        document.getElementById('modal-reset').classList.remove('hidden');
+      });
+      document.getElementById('btn-cancel-reset').addEventListener('click', () => {
+        document.getElementById('modal-reset').classList.add('hidden');
+      });
+      document.getElementById('btn-confirm-reset').addEventListener('click', () => {
+        appState.masteredIds = {};
+        appState.attemptsById = {};
+        appState.missedIds = {};
+        appState.flaggedIds = {};
+        appState.weekBestScore = {};
+        appState.streak = 0;
+        saveState();
+        document.getElementById('modal-reset').classList.add('hidden');
+        updateGlobalHeader();
+        renderWeeksGrid();
+        renderRandomMenu();
+        showView('view-roadmap');
+      });
+
+      // Keyboard Shortcuts for rapid drilling
+      window.addEventListener('keydown', (e) => {
+        const quizVisible = !document.getElementById('view-quiz').classList.contains('hidden');
+        if (!quizVisible) return;
+        if (['INPUT', 'TEXTAREA', 'SELECT'].includes((e.target && e.target.tagName) || '')) return;
+
+        const idx = quizSession.currentIndex;
+        const optOrder = quizSession.optionOrders[idx] || [];
+
+        if (e.code === 'Space' && appState.activeRecall && !quizSession.revealedRecall[idx] && quizSession.answers[idx] === undefined) {
+          e.preventDefault();
+          quizSession.revealedRecall[idx] = true;
+          renderQuizQuestion();
+          return;
+        }
+
+        const keyMap = {
+          '1': 0, 'a': 0, 'A': 0,
+          '2': 1, 'b': 1, 'B': 1,
+          '3': 2, 'c': 2, 'C': 2,
+          '4': 3, 'd': 3, 'D': 3
+        };
+        if (keyMap[e.key] !== undefined) {
+          const dispIdx = keyMap[e.key];
+          if (dispIdx < optOrder.length) {
+            e.preventDefault();
+            quizSession.revealedRecall[idx] = true;
+            handleSelectOption(optOrder[dispIdx]);
+          }
+        } else if (e.key === 'ArrowRight' || e.key === 'Enter') {
+          e.preventDefault();
+          goNextQuestion();
+        } else if (e.key === 'ArrowLeft') {
+          e.preventDefault();
+          goPrevQuestion();
+        } else if (e.key === 's' || e.key === 'S') {
+          e.preventDefault();
+          document.getElementById('btn-flag-current').click();
+        }
+      });
+    });
+  </script>
+</body>
+</html>
